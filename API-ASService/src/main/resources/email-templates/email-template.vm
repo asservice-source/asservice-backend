@@ -1,0 +1,19 @@
+<html>
+
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+</head>
+
+<body>
+	<p style="font-weight: 600;">เรียน คุณ${firstName} ${lastName}</p>
+	<p>ขอขอบคุณที่ท่านเลือกใช้บริการจาก Anamai Smart Service<br/>ขณะนี้ท่านได้เป็นสมาชิกของ Anamai Smart Service ในชื่อ ${hospitalName} เรียบร้อยแล้ว</p>
+    <p style="font-weight: 600;">รายละเอียดการเข้าสู่ระบบของท่านมีดังนี้:</p>
+    <p>ชื่อผู้ใช้: ${username}<br/>รหัสผ่าน: ${password}</p>
+    <p></b></p>
+    <p>กรุณาคลิกลิงค์ด้านล่าง เพื่อทำการยืนยันการสมัครเพื่อเข้าใช้งาน</p>
+    <p><a href="${url}/register/activate/${tokenId}">${url}/register/activate/${tokenId}</a></p>
+    <p>ขอขอบคุณที่ท่านให้ความไว้วางใจ และเป็นส่วนหนึ่งของ Anamai Smart Service</p>
+    <p>ขอแสดงความนับถือ<br/>ฝ่ายลูกค้าสัมพันธ์</p>
+</body>
+
+</html>

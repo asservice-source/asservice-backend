@@ -1,0 +1,286 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="YearlyReportForPopulation_Sub_ListOfHostAndRegisteredOccupants" pageWidth="842" pageHeight="595" orientation="Landscape" whenNoDataType="AllSectionsNoDetail" columnWidth="842" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0" uuid="77ffd335-5fbe-4ef6-a291-fe8ce84e5d1d">
+	<property name="ireport.zoom" value="2.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="PopulationDetailRowGUID" class="java.lang.String"/>
+	<queryString>
+		<![CDATA[CALL `asservice`.`Report.sp_Population_GetYearlyReportData_ListOfGuestOccupants`($P{PopulationDetailRowGUID});]]>
+	</queryString>
+	<field name="PopulationDetailRowGUID" class="java.lang.String"/>
+	<field name="PopulationDetailInfoRowGUID" class="java.lang.String"/>
+	<field name="PersonID" class="java.lang.String"/>
+	<field name="PersonName" class="java.lang.String"/>
+	<field name="PersonCitizenID" class="java.lang.String"/>
+	<field name="PersonBirthDate" class="java.lang.String"/>
+	<field name="OccupCode" class="java.lang.String"/>
+	<field name="OccupationName" class="java.lang.String"/>
+	<field name="EducationCode" class="java.lang.String"/>
+	<field name="EducationName" class="java.lang.String"/>
+	<field name="CongenitalDisease" class="java.lang.String"/>
+	<field name="FamilyStatusID" class="java.lang.Long"/>
+	<field name="FamilyStatusName" class="java.lang.String"/>
+	<field name="IsGuest" class="java.lang.String"/>
+	<field name="IsExists" class="java.lang.String"/>
+	<field name="Remark" class="java.lang.String"/>
+	<variable name="Count_DetailInfoRowGUID" class="java.lang.Integer" calculation="Count">
+		<variableExpression><![CDATA[$F{PopulationDetailInfoRowGUID}]]></variableExpression>
+		<initialValueExpression><![CDATA[0]]></initialValueExpression>
+	</variable>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band splitType="Stretch"/>
+	</title>
+	<pageHeader>
+		<band height="70" splitType="Stretch">
+			<frame>
+				<reportElement stretchType="RelativeToBandHeight" x="0" y="25" width="802" height="45" uuid="76b73412-9453-4a28-90e2-426f78569424"/>
+				<box>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<line>
+					<reportElement stretchType="RelativeToBandHeight" x="30" y="0" width="1" height="45" uuid="48011f2d-30e5-44fd-a352-fb0fe02a4763"/>
+				</line>
+				<line>
+					<reportElement stretchType="RelativeToBandHeight" x="183" y="0" width="1" height="45" uuid="afcb77cf-5f7f-4fbc-990f-4ed87a7bf2b4"/>
+				</line>
+				<line>
+					<reportElement stretchType="RelativeToBandHeight" x="279" y="0" width="1" height="45" uuid="dedf798a-fe66-4303-83ac-fccdfa72f16c"/>
+				</line>
+				<line>
+					<reportElement stretchType="RelativeToBandHeight" x="346" y="0" width="1" height="45" uuid="1cdf0bc4-8244-44a6-87fd-0ee63314ba43"/>
+				</line>
+				<line>
+					<reportElement stretchType="RelativeToBandHeight" x="459" y="0" width="1" height="45" uuid="00ab4f08-f106-4cf4-9d53-298cf560234b"/>
+				</line>
+				<line>
+					<reportElement stretchType="RelativeToBandHeight" x="535" y="0" width="1" height="45" uuid="93526556-474b-4b84-9e06-1bb5fc4edffa"/>
+				</line>
+				<line>
+					<reportElement stretchType="RelativeToBandHeight" x="608" y="0" width="1" height="45" uuid="fb976250-6f92-4378-b64f-0f3f703acc6a"/>
+				</line>
+				<line>
+					<reportElement stretchType="RelativeToBandHeight" x="676" y="0" width="1" height="45" uuid="c56eb53a-cad7-477d-a1e6-cb2fc032f53f"/>
+				</line>
+				<line>
+					<reportElement stretchType="RelativeToBandHeight" x="730" y="0" width="1" height="45" uuid="5f754a16-887c-471e-b20b-a9f93133e59e"/>
+				</line>
+			</frame>
+			<staticText>
+				<reportElement x="3" y="1" width="236" height="25" uuid="2e53a7de-989f-4928-be36-5a947f2776df"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="TH Sarabun Chula" size="14" isBold="false" pdfEncoding="Identity-H" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[ส่วนที่ 2 ไม่มีชื่อในทะเบียนบ้านแต่ ตัวอยู่จริง]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="25" width="30" height="45" uuid="2ac2a532-24a2-4466-993d-8d7f469c9b42"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="TH Sarabun Chula" size="14" isBold="true" pdfEncoding="Identity-H" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[ลำดับ]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="29" y="25" width="154" height="45" uuid="887bf3d9-3727-43f5-819f-50f84c40b6a1"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="TH Sarabun Chula" size="14" isBold="true" pdfEncoding="Identity-H" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[ชื่อ - สกุล]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="184" y="25" width="95" height="45" uuid="ba1b71a9-5eee-4f37-bfa1-7dc207f16b7a"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="TH Sarabun Chula" size="14" isBold="true" pdfEncoding="Identity-H" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[เลขประจำตัวประชาชน]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="279" y="25" width="67" height="45" uuid="de22502c-9b8b-4c93-a334-eb93ba77b3de"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="TH Sarabun Chula" size="14" isBold="true" pdfEncoding="Identity-H" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[วันเดือนปี เกิด]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="346" y="25" width="113" height="45" uuid="9c5f6412-bcf6-4432-9deb-5029816c9a95"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="TH Sarabun Chula" size="14" isBold="true" pdfEncoding="Identity-H" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[การศึกษา]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="459" y="25" width="77" height="45" uuid="68f9fb09-2446-4cd0-a312-a65be38c5cb5"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="TH Sarabun Chula" size="14" isBold="true" pdfEncoding="Identity-H" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[อาชีพ]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="536" y="25" width="73" height="45" uuid="863f2920-5a02-4fb1-aff2-c51e65699604"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="TH Sarabun Chula" size="14" isBold="true" pdfEncoding="Identity-H" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[โรคประจำตัว]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="609" y="25" width="67" height="45" uuid="41c48517-4b13-402a-b719-b6361be6523d"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="TH Sarabun Chula" size="14" isBold="true" pdfEncoding="Identity-H" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[ความสัมพันธ์]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="676" y="25" width="55" height="45" uuid="5f95f65a-b8f3-4fb1-a431-d5b585c02719"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="TH Sarabun Chula" size="14" isBold="true" pdfEncoding="Identity-H" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[สถานะอยู่ จริง/ไม่จริง]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="731" y="25" width="71" height="45" uuid="8565bdc9-5147-4041-b9c9-a942c87f5dfb"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="TH Sarabun Chula" size="14" isBold="true" pdfEncoding="Identity-H" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[หมายเหตุ]]></text>
+			</staticText>
+		</band>
+	</pageHeader>
+	<columnHeader>
+		<band splitType="Stretch"/>
+	</columnHeader>
+	<detail>
+		<band height="20" splitType="Stretch">
+			<frame>
+				<reportElement stretchType="RelativeToBandHeight" x="0" y="0" width="802" height="20" uuid="7c9fc965-63b8-43f4-a948-a830b9d39f2f"/>
+				<box>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<line>
+					<reportElement stretchType="RelativeToBandHeight" x="30" y="0" width="1" height="20" uuid="3d639f6e-ef37-4641-b1ff-369397935608"/>
+				</line>
+				<line>
+					<reportElement stretchType="RelativeToBandHeight" x="183" y="0" width="1" height="20" uuid="4d68402f-82b1-44ec-9aaa-b0f1348b2b0a"/>
+				</line>
+				<line>
+					<reportElement stretchType="RelativeToBandHeight" x="279" y="0" width="1" height="20" uuid="890b8207-d95a-490b-8c74-6fa67d1eb21c"/>
+				</line>
+				<line>
+					<reportElement stretchType="RelativeToBandHeight" x="346" y="0" width="1" height="20" uuid="f9dd772e-d4cd-41c8-9bb2-007f9d673d1b"/>
+				</line>
+				<line>
+					<reportElement stretchType="RelativeToBandHeight" x="459" y="0" width="1" height="20" uuid="ca0063a4-4d55-4a4c-94b3-2f3a239a75a9"/>
+				</line>
+				<line>
+					<reportElement stretchType="RelativeToBandHeight" x="535" y="0" width="1" height="20" uuid="9241542d-5356-4052-b2e5-f0e2f1c39aa6"/>
+				</line>
+				<line>
+					<reportElement stretchType="RelativeToBandHeight" x="608" y="0" width="1" height="20" uuid="525e1dec-3ee5-4c9a-ba24-7721c21752c8"/>
+				</line>
+				<line>
+					<reportElement stretchType="RelativeToBandHeight" x="676" y="0" width="1" height="20" uuid="b4a05129-b8eb-40da-8dc1-164e0f62aca7"/>
+				</line>
+				<line>
+					<reportElement stretchType="RelativeToBandHeight" x="730" y="0" width="1" height="20" uuid="ab978bba-27da-4af3-b517-e92110fd725e"/>
+				</line>
+			</frame>
+			<textField isBlankWhenNull="true">
+				<reportElement x="0" y="0" width="30" height="20" uuid="adb22487-3de0-445d-aa43-a5c93ada0a4f"/>
+				<textElement textAlignment="Center" verticalAlignment="Bottom">
+					<font fontName="TH Sarabun Chula" size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{Count_DetailInfoRowGUID}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="184" y="0" width="95" height="20" uuid="1953d3fb-3c24-4761-b4b2-44d6a798a15d"/>
+				<textElement textAlignment="Center" verticalAlignment="Bottom">
+					<font fontName="TH Sarabun Chula" size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{PersonCitizenID}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="279" y="0" width="67" height="20" uuid="89639b52-e1e9-4597-85bc-fc269d6e9d92"/>
+				<textElement textAlignment="Center" verticalAlignment="Bottom">
+					<font fontName="TH Sarabun Chula" size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{PersonBirthDate}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement x="346" y="0" width="113" height="20" uuid="abe4f951-d5ea-439b-85bb-730f7a31428d"/>
+				<textElement textAlignment="Center" verticalAlignment="Bottom">
+					<font fontName="TH Sarabun Chula" size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{EducationName}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="459" y="0" width="77" height="20" uuid="e120b883-b94a-4478-a544-73bb42fcadb4"/>
+				<textElement textAlignment="Center" verticalAlignment="Bottom">
+					<font fontName="TH Sarabun Chula" size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{OccupationName}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="536" y="0" width="73" height="20" uuid="d035305c-36f5-4779-8f18-3b7495006f43"/>
+				<textElement textAlignment="Center" verticalAlignment="Bottom">
+					<font fontName="TH Sarabun Chula" size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{CongenitalDisease}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="609" y="0" width="67" height="20" uuid="4e270dca-d080-43c9-9af0-2767519b3063"/>
+				<textElement textAlignment="Center" verticalAlignment="Bottom">
+					<font fontName="TH Sarabun Chula" size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{FamilyStatusName}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="676" y="0" width="55" height="20" uuid="c7445405-5b13-482d-922e-83a6d4de257f"/>
+				<textElement textAlignment="Center" verticalAlignment="Bottom">
+					<font fontName="TH Sarabun Chula" size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{IsExists}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="731" y="0" width="71" height="20" uuid="e7804737-e8a6-41aa-9e78-8f401f441d59"/>
+				<textElement textAlignment="Center" verticalAlignment="Bottom">
+					<font fontName="TH Sarabun Chula" size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{Remark}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="29" y="0" width="154" height="20" uuid="5da91a0e-1a04-4722-a91a-2180bb378aa1"/>
+				<textElement textAlignment="Left" verticalAlignment="Bottom">
+					<font fontName="TH Sarabun Chula" size="14"/>
+					<paragraph leftIndent="4"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{PersonName}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<columnFooter>
+		<band splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band splitType="Stretch"/>
+	</pageFooter>
+	<summary>
+		<band height="20" splitType="Stretch">
+			<staticText>
+				<reportElement x="303" y="2" width="236" height="18" uuid="ddd879ea-314f-4a47-a9e1-4dfbf73d6257">
+					<printWhenExpression><![CDATA[$V{Count_DetailInfoRowGUID} == 0 ? true : false]]></printWhenExpression>
+				</reportElement>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="TH Sarabun Chula" size="15" isBold="false" pdfEncoding="Identity-H" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[ไม่พบข้อมูล]]></text>
+			</staticText>
+		</band>
+	</summary>
+</jasperReport>

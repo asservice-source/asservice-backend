@@ -1,0 +1,1253 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="MonthlyReport_HICI_Mosquito_Form3_HICISummaryForTumbol" pageWidth="842" pageHeight="595" orientation="Landscape" whenNoDataType="AllSectionsNoDetail" columnWidth="802" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="f3307142-13b5-4f02-96a7-7434221b08ae">
+	<property name="ireport.zoom" value="2.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="144"/>
+	<parameter name="SurveyHeaderRowGUID" class="java.lang.String"/>
+	<parameter name="HomeTypeCode" class="java.lang.String"/>
+	<parameter name="OSMPersonID" class="java.lang.String"/>
+	<parameter name="VillageID" class="java.lang.String"/>
+	<parameter name="UserPersonID" class="java.lang.String"/>
+	<queryString>
+		<![CDATA[CALL `Report.sp_HICI_Mosquito_Form3_HICISummaryForTumbol`($P{SurveyHeaderRowGUID}, $P{HomeTypeCode},$P{OSMPersonID},$P{VillageID},$P{UserPersonID});]]>
+	</queryString>
+	<field name="SurveyHeaderRowGUID" class="java.lang.String"/>
+	<field name="HospitalCode5" class="java.lang.String"/>
+	<field name="HospitalName" class="java.lang.String"/>
+	<field name="SurveyMonth" class="java.lang.String"/>
+	<field name="SurveyYear" class="java.lang.String"/>
+	<field name="OSMPersonID" class="java.lang.String"/>
+	<field name="OSMName" class="java.lang.String"/>
+	<field name="OSMPosition" class="java.lang.String"/>
+	<field name="ProvinceCode" class="java.lang.String"/>
+	<field name="ProvinceName" class="java.lang.String"/>
+	<field name="AmphurCode" class="java.lang.String"/>
+	<field name="AmphurName" class="java.lang.String"/>
+	<field name="TumbolCode" class="java.lang.String"/>
+	<field name="TumbolName" class="java.lang.String"/>
+	<field name="VillageID" class="java.lang.Integer"/>
+	<field name="VillageName" class="java.lang.String"/>
+	<field name="VillageIDOfDetailInfo" class="java.lang.Integer"/>
+	<field name="VillageNameOfDetailInfo" class="java.lang.String"/>
+	<field name="HomeID" class="java.lang.Integer"/>
+	<field name="HomeNO" class="java.lang.String">
+		<fieldDescription><![CDATA[บ้านเลขที่]]></fieldDescription>
+	</field>
+	<field name="HomeName" class="java.lang.String"/>
+	<field name="HomeRoad" class="java.lang.String"/>
+	<field name="MonitorHICIDetailInfoRowGUID" class="java.lang.String"/>
+	<field name="HomeTypeCode" class="java.lang.String"/>
+	<field name="HomeTypeName" class="java.lang.String"/>
+	<field name="ContainerTypeID" class="java.lang.Integer"/>
+	<field name="ContainerTypeName" class="java.lang.String"/>
+	<field name="TotalSurvey" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="TotalDetect" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="ReporterName" class="java.lang.String"/>
+	<field name="ReporterRoleDescription" class="java.lang.String"/>
+	<variable name="Count_SurveyHomes_InVillage_HomeType_Home" class="java.lang.Integer" resetType="Group" resetGroup="Village" calculation="DistinctCount">
+		<variableExpression><![CDATA[(
+    (
+        "01".equals($F{HomeTypeCode})
+        || "02".equals($F{HomeTypeCode})
+        || "03".equals($F{HomeTypeCode})
+        || "04".equals($F{HomeTypeCode})
+        || "05".equals($F{HomeTypeCode})
+
+    )
+    && $F{VillageID}.equals($F{VillageIDOfDetailInfo})
+)
+? $F{HomeID} : null]]></variableExpression>
+		<initialValueExpression><![CDATA[0]]></initialValueExpression>
+	</variable>
+	<variable name="Count_SurveyHomes_InVillage_HomeType_Academe" class="java.lang.Integer" resetType="Group" resetGroup="Village" calculation="DistinctCount">
+		<variableExpression><![CDATA[(
+    "10".equals($F{HomeTypeCode})
+    && $F{VillageID}.equals($F{VillageIDOfDetailInfo})
+)
+? $F{HomeID} : null]]></variableExpression>
+		<initialValueExpression><![CDATA[0]]></initialValueExpression>
+	</variable>
+	<variable name="Count_SurveyHomes_InVillage_HomeType_Hospital" class="java.lang.Integer" resetType="Group" resetGroup="Village" calculation="DistinctCount">
+		<variableExpression><![CDATA[(
+    "12".equals($F{HomeTypeCode})
+    && $F{VillageID}.equals($F{VillageIDOfDetailInfo})
+)
+? $F{HomeID} : null]]></variableExpression>
+		<initialValueExpression><![CDATA[0]]></initialValueExpression>
+	</variable>
+	<variable name="Count_SurveyHomes_InVillage_HomeType_Hotel" class="java.lang.Integer" resetType="Group" resetGroup="Village" calculation="DistinctCount">
+		<variableExpression><![CDATA[(
+    "14".equals($F{HomeTypeCode})
+    && $F{VillageID}.equals($F{VillageIDOfDetailInfo})
+)
+? $F{HomeID} : null]]></variableExpression>
+		<initialValueExpression><![CDATA[0]]></initialValueExpression>
+	</variable>
+	<variable name="Count_SurveyHomes_InVillage_HomeType_ReligiousPlace" class="java.lang.Integer" resetType="Group" resetGroup="Village" calculation="DistinctCount">
+		<variableExpression><![CDATA[(
+    "06".equals($F{HomeTypeCode})
+    && $F{VillageID}.equals($F{VillageIDOfDetailInfo})
+)
+? $F{HomeID} : null]]></variableExpression>
+		<initialValueExpression><![CDATA[0]]></initialValueExpression>
+	</variable>
+	<variable name="Count_SurveyHomes_InVillage_HomeType_Factory" class="java.lang.Integer" resetType="Group" resetGroup="Village" calculation="DistinctCount">
+		<variableExpression><![CDATA[(
+    "13".equals($F{HomeTypeCode})
+    && $F{VillageID}.equals($F{VillageIDOfDetailInfo})
+)
+? $F{HomeID} : null]]></variableExpression>
+		<initialValueExpression><![CDATA[0]]></initialValueExpression>
+	</variable>
+	<variable name="Sum_TotalDetect_OfHome_HomeType_Home" class="java.lang.Integer" resetType="Group" resetGroup="Home" calculation="Sum">
+		<variableExpression><![CDATA[(
+    (
+    "01".equals($F{HomeTypeCode})
+    || "02".equals($F{HomeTypeCode})
+    || "03".equals($F{HomeTypeCode})
+    || "04".equals($F{HomeTypeCode})
+    || "05".equals($F{HomeTypeCode})
+
+    )
+    && $F{VillageID}.equals($F{VillageIDOfDetailInfo})
+)
+? $F{TotalDetect} : null]]></variableExpression>
+		<initialValueExpression><![CDATA[0]]></initialValueExpression>
+	</variable>
+	<variable name="Sum_TotalDetect_OfHome_HomeType_Academe" class="java.lang.Integer" resetType="Group" resetGroup="Home" calculation="Sum">
+		<variableExpression><![CDATA[(
+    "10".equals($F{HomeTypeCode})
+    && $F{VillageID}.equals($F{VillageIDOfDetailInfo})
+)
+? $F{TotalDetect} : null]]></variableExpression>
+		<initialValueExpression><![CDATA[0]]></initialValueExpression>
+	</variable>
+	<variable name="Sum_TotalDetect_OfHome_HomeType_Hospital" class="java.lang.Integer" resetType="Group" resetGroup="Home" calculation="Sum">
+		<variableExpression><![CDATA[(
+    "12".equals($F{HomeTypeCode})
+    && $F{VillageID}.equals($F{VillageIDOfDetailInfo})
+)
+? $F{TotalDetect} : null]]></variableExpression>
+		<initialValueExpression><![CDATA[0]]></initialValueExpression>
+	</variable>
+	<variable name="Sum_TotalDetect_OfHome_HomeType_Hotel" class="java.lang.Integer" resetType="Group" resetGroup="Home" calculation="Sum">
+		<variableExpression><![CDATA[(
+    "14".equals($F{HomeTypeCode})
+    && $F{VillageID}.equals($F{VillageIDOfDetailInfo})
+)
+? $F{TotalDetect} : null]]></variableExpression>
+		<initialValueExpression><![CDATA[0]]></initialValueExpression>
+	</variable>
+	<variable name="Sum_TotalDetect_OfHome_HomeType_ReligiousPlace" class="java.lang.Integer" resetType="Group" resetGroup="Home" calculation="Sum">
+		<variableExpression><![CDATA[(
+    "06".equals($F{HomeTypeCode})
+    && $F{VillageID}.equals($F{VillageIDOfDetailInfo})
+)
+? $F{TotalDetect} : null]]></variableExpression>
+		<initialValueExpression><![CDATA[0]]></initialValueExpression>
+	</variable>
+	<variable name="Sum_TotalDetect_OfHome_HomeType_Factory" class="java.lang.Integer" resetType="Group" resetGroup="Home" calculation="Sum">
+		<variableExpression><![CDATA[(
+    "13".equals($F{HomeTypeCode})
+    && $F{VillageID}.equals($F{VillageIDOfDetailInfo})
+)
+? $F{TotalDetect} : null]]></variableExpression>
+		<initialValueExpression><![CDATA[0]]></initialValueExpression>
+	</variable>
+	<variable name="Count_DetectedHomes_InVillage_HomeType_Home" class="java.lang.Integer" resetType="Group" resetGroup="Village" incrementType="Group" incrementGroup="Home" calculation="DistinctCount">
+		<variableExpression><![CDATA[(
+    "01".equals($F{HomeTypeCode})
+    || "02".equals($F{HomeTypeCode})
+    || "03".equals($F{HomeTypeCode})
+    || "04".equals($F{HomeTypeCode})
+    || "05".equals($F{HomeTypeCode})
+)
+? ($V{Sum_TotalDetect_OfHome_HomeType_Home} > 0 ? $F{HomeID} : null)
+: null]]></variableExpression>
+		<initialValueExpression><![CDATA[0]]></initialValueExpression>
+	</variable>
+	<variable name="Count_DetectedHomes_InVillage_HomeType_Academe" class="java.lang.Integer" resetType="Group" resetGroup="Village" incrementType="Group" incrementGroup="Home" calculation="DistinctCount">
+		<variableExpression><![CDATA[(
+    "10".equals($F{HomeTypeCode})
+)
+? ($V{Sum_TotalDetect_OfHome_HomeType_Academe} > 0 ? $F{HomeID} : null)
+: null]]></variableExpression>
+		<initialValueExpression><![CDATA[0]]></initialValueExpression>
+	</variable>
+	<variable name="Count_DetectedHomes_InVillage_HomeType_Hospital" class="java.lang.Integer" resetType="Group" resetGroup="Village" incrementType="Group" incrementGroup="Home" calculation="DistinctCount">
+		<variableExpression><![CDATA[(
+    "12".equals($F{HomeTypeCode})
+)
+? ($V{Sum_TotalDetect_OfHome_HomeType_Hospital} > 0 ? $F{HomeID} : null)
+: null]]></variableExpression>
+		<initialValueExpression><![CDATA[0]]></initialValueExpression>
+	</variable>
+	<variable name="Count_DetectedHomes_InVillage_HomeType_Hotel" class="java.lang.Integer" resetType="Group" resetGroup="Village" incrementType="Group" incrementGroup="Home" calculation="DistinctCount">
+		<variableExpression><![CDATA[(
+    "14".equals($F{HomeTypeCode})
+)
+? ($V{Sum_TotalDetect_OfHome_HomeType_Hotel} > 0 ? $F{HomeID} : null)
+: null]]></variableExpression>
+		<initialValueExpression><![CDATA[0]]></initialValueExpression>
+	</variable>
+	<variable name="Count_DetectedHomes_InVillage_HomeType_ReligiousPlace" class="java.lang.Integer" resetType="Group" resetGroup="Village" incrementType="Group" incrementGroup="Home" calculation="DistinctCount">
+		<variableExpression><![CDATA[(
+    "06".equals($F{HomeTypeCode})
+)
+? ($V{Sum_TotalDetect_OfHome_HomeType_ReligiousPlace} > 0 ? $F{HomeID} : null)
+: null]]></variableExpression>
+		<initialValueExpression><![CDATA[0]]></initialValueExpression>
+	</variable>
+	<variable name="Count_DetectedHomes_InVillage_HomeType_Factory" class="java.lang.Integer" resetType="Group" resetGroup="Village" incrementType="Group" incrementGroup="Home" calculation="DistinctCount">
+		<variableExpression><![CDATA[(
+    "13".equals($F{HomeTypeCode})
+)
+? ($V{Sum_TotalDetect_OfHome_HomeType_Factory} > 0 ? $F{HomeID} : null)
+: null]]></variableExpression>
+		<initialValueExpression><![CDATA[0]]></initialValueExpression>
+	</variable>
+	<variable name="PercentageOfVillage_HomeType_Home" class="java.lang.Double" resetType="Group" resetGroup="Village" incrementType="Group" incrementGroup="Village">
+		<variableExpression><![CDATA[$V{Count_SurveyHomes_InVillage_HomeType_Home} > 0
+? Math.round(
+(Double.valueOf($V{Count_DetectedHomes_InVillage_HomeType_Home}) * 100D)
+/ Double.valueOf($V{Count_SurveyHomes_InVillage_HomeType_Home})
+)
+: 0.00D]]></variableExpression>
+		<initialValueExpression><![CDATA[0.00]]></initialValueExpression>
+	</variable>
+	<variable name="PercentageOfVillage_HomeType_Academe" class="java.lang.Double" resetType="Group" resetGroup="Village" incrementType="Group" incrementGroup="Village">
+		<variableExpression><![CDATA[$V{Count_SurveyHomes_InVillage_HomeType_Academe} > 0
+? (
+Math.round(Double.valueOf($V{Count_DetectedHomes_InVillage_HomeType_Academe}) * 100D)
+/ Double.valueOf($V{Count_SurveyHomes_InVillage_HomeType_Academe})
+)
+: 0.00D]]></variableExpression>
+		<initialValueExpression><![CDATA[0.00]]></initialValueExpression>
+	</variable>
+	<variable name="PercentageOfVillage_HomeType_Hospital" class="java.lang.Double" resetType="Group" resetGroup="Village" incrementType="Group" incrementGroup="Village">
+		<variableExpression><![CDATA[$V{Count_SurveyHomes_InVillage_HomeType_Hospital} > 0
+? (
+Math.round(Double.valueOf($V{Count_DetectedHomes_InVillage_HomeType_Hospital}) * 100D)
+/ Double.valueOf($V{Count_SurveyHomes_InVillage_HomeType_Hospital})
+)
+: 0.00D]]></variableExpression>
+		<initialValueExpression><![CDATA[0.00]]></initialValueExpression>
+	</variable>
+	<variable name="PercentageOfVillage_HomeType_Hotel" class="java.lang.Double" resetType="Group" resetGroup="Village" incrementType="Group" incrementGroup="Village">
+		<variableExpression><![CDATA[$V{Count_SurveyHomes_InVillage_HomeType_Hotel} > 0
+? (
+Math.round(Double.valueOf($V{Count_DetectedHomes_InVillage_HomeType_Hotel}) * 100D)
+/ Double.valueOf($V{Count_SurveyHomes_InVillage_HomeType_Hotel})
+)
+: 0.00D]]></variableExpression>
+		<initialValueExpression><![CDATA[0.00]]></initialValueExpression>
+	</variable>
+	<variable name="PercentageOfVillage_HomeType_ReligiousPlace" class="java.lang.Double" resetType="Group" resetGroup="Village" incrementType="Group" incrementGroup="Village">
+		<variableExpression><![CDATA[$V{Count_SurveyHomes_InVillage_HomeType_ReligiousPlace} > 0
+? (
+Math.round(Double.valueOf($V{Count_DetectedHomes_InVillage_HomeType_ReligiousPlace}) * 100D)
+/ Double.valueOf($V{Count_SurveyHomes_InVillage_HomeType_ReligiousPlace})
+)
+: 0.00D]]></variableExpression>
+		<initialValueExpression><![CDATA[0.00]]></initialValueExpression>
+	</variable>
+	<variable name="PercentageOfVillage_HomeType_Factory" class="java.lang.Double" resetType="Group" resetGroup="Village" incrementType="Group" incrementGroup="Village">
+		<variableExpression><![CDATA[$V{Count_SurveyHomes_InVillage_HomeType_Factory} > 0
+? (
+Math.round(Double.valueOf($V{Count_DetectedHomes_InVillage_HomeType_Factory}) * 100D)
+/ Double.valueOf($V{Count_SurveyHomes_InVillage_HomeType_Factory})
+)
+: 0.00D]]></variableExpression>
+		<initialValueExpression><![CDATA[0.00]]></initialValueExpression>
+	</variable>
+	<variable name="Sum_AllHomes_InTumbol_HomeType_Home" class="java.lang.Integer" resetType="Group" resetGroup="Tumbol" incrementType="Group" incrementGroup="Village" calculation="Sum">
+		<variableExpression><![CDATA[$V{Count_SurveyHomes_InVillage_HomeType_Home}]]></variableExpression>
+		<initialValueExpression><![CDATA[0]]></initialValueExpression>
+	</variable>
+	<variable name="Sum_AllHomes_InTumbol_HomeType_Academe" class="java.lang.Integer" resetType="Group" resetGroup="Tumbol" incrementType="Group" incrementGroup="Village" calculation="Sum">
+		<variableExpression><![CDATA[$V{Count_SurveyHomes_InVillage_HomeType_Academe}]]></variableExpression>
+		<initialValueExpression><![CDATA[0]]></initialValueExpression>
+	</variable>
+	<variable name="Sum_AllHomes_InTumbol_HomeType_Hospital" class="java.lang.Integer" resetType="Group" resetGroup="Tumbol" incrementType="Group" incrementGroup="Village" calculation="Sum">
+		<variableExpression><![CDATA[$V{Count_SurveyHomes_InVillage_HomeType_Hospital}]]></variableExpression>
+		<initialValueExpression><![CDATA[0]]></initialValueExpression>
+	</variable>
+	<variable name="Sum_AllHomes_InTumbol_HomeType_Hotel" class="java.lang.Integer" resetType="Group" resetGroup="Tumbol" incrementType="Group" incrementGroup="Village" calculation="Sum">
+		<variableExpression><![CDATA[$V{Count_SurveyHomes_InVillage_HomeType_Hotel}]]></variableExpression>
+		<initialValueExpression><![CDATA[0]]></initialValueExpression>
+	</variable>
+	<variable name="Sum_AllHomes_InTumbol_HomeType_ReligiousPlace" class="java.lang.Integer" resetType="Group" resetGroup="Tumbol" incrementType="Group" incrementGroup="Village" calculation="Sum">
+		<variableExpression><![CDATA[$V{Count_SurveyHomes_InVillage_HomeType_ReligiousPlace}]]></variableExpression>
+		<initialValueExpression><![CDATA[0]]></initialValueExpression>
+	</variable>
+	<variable name="Sum_AllHomes_InTumbol_HomeType_Factory" class="java.lang.Integer" resetType="Group" resetGroup="Tumbol" incrementType="Group" incrementGroup="Village" calculation="Sum">
+		<variableExpression><![CDATA[$V{Count_SurveyHomes_InVillage_HomeType_Factory}]]></variableExpression>
+		<initialValueExpression><![CDATA[0]]></initialValueExpression>
+	</variable>
+	<variable name="Sum_AllDetectedHomes_InTumbol_HomeType_Home" class="java.lang.Integer" resetType="Group" resetGroup="Tumbol" incrementType="Group" incrementGroup="Village" calculation="Sum">
+		<variableExpression><![CDATA[$V{Count_DetectedHomes_InVillage_HomeType_Home}]]></variableExpression>
+		<initialValueExpression><![CDATA[0]]></initialValueExpression>
+	</variable>
+	<variable name="Sum_AllDetectedHomes_InTumbol_HomeType_Academe" class="java.lang.Integer" resetType="Group" resetGroup="Tumbol" incrementType="Group" incrementGroup="Village" calculation="Sum">
+		<variableExpression><![CDATA[$V{Count_DetectedHomes_InVillage_HomeType_Academe}]]></variableExpression>
+		<initialValueExpression><![CDATA[0]]></initialValueExpression>
+	</variable>
+	<variable name="Sum_AllDetectedHomes_InTumbol_HomeType_Hospital" class="java.lang.Integer" resetType="Group" resetGroup="Tumbol" incrementType="Group" incrementGroup="Village" calculation="Sum">
+		<variableExpression><![CDATA[$V{Count_DetectedHomes_InVillage_HomeType_Hospital}]]></variableExpression>
+		<initialValueExpression><![CDATA[0]]></initialValueExpression>
+	</variable>
+	<variable name="Sum_AllDetectedHomes_InTumbol_HomeType_Hotel" class="java.lang.Integer" resetType="Group" resetGroup="Tumbol" incrementType="Group" incrementGroup="Village" calculation="Sum">
+		<variableExpression><![CDATA[$V{Count_DetectedHomes_InVillage_HomeType_Hotel}]]></variableExpression>
+		<initialValueExpression><![CDATA[0]]></initialValueExpression>
+	</variable>
+	<variable name="Sum_AllDetectedHomes_InTumbol_HomeType_ReligiousPlace" class="java.lang.Integer" resetType="Group" resetGroup="Tumbol" incrementType="Group" incrementGroup="Village" calculation="Sum">
+		<variableExpression><![CDATA[$V{Count_DetectedHomes_InVillage_HomeType_ReligiousPlace}]]></variableExpression>
+		<initialValueExpression><![CDATA[0]]></initialValueExpression>
+	</variable>
+	<variable name="Sum_AllDetectedHomes_InTumbol_HomeType_Factory" class="java.lang.Integer" resetType="Group" resetGroup="Tumbol" incrementType="Group" incrementGroup="Village" calculation="Sum">
+		<variableExpression><![CDATA[$V{Count_DetectedHomes_InVillage_HomeType_Factory}]]></variableExpression>
+		<initialValueExpression><![CDATA[0]]></initialValueExpression>
+	</variable>
+	<variable name="PercentageOfTumbol_HomeType_Home" class="java.lang.Double" resetType="Group" resetGroup="Tumbol" incrementType="Group" incrementGroup="Tumbol">
+		<variableExpression><![CDATA[($V{Sum_AllHomes_InTumbol_HomeType_Home} > 0)
+? (Double.valueOf($V{Sum_AllDetectedHomes_InTumbol_HomeType_Home}) * 100D)
+   / Double.valueOf($V{Sum_AllHomes_InTumbol_HomeType_Home})
+: 0.00D]]></variableExpression>
+		<initialValueExpression><![CDATA[0.00]]></initialValueExpression>
+	</variable>
+	<variable name="PercentageOfTumbol_HomeType_Academe" class="java.lang.Double" resetType="Group" resetGroup="Tumbol" incrementType="Group" incrementGroup="Tumbol">
+		<variableExpression><![CDATA[($V{Sum_AllHomes_InTumbol_HomeType_Academe} > 0)
+? (Double.valueOf($V{Sum_AllDetectedHomes_InTumbol_HomeType_Academe}) * 100D)
+   / Double.valueOf($V{Sum_AllHomes_InTumbol_HomeType_Academe})
+: 0.00D]]></variableExpression>
+		<initialValueExpression><![CDATA[0.00]]></initialValueExpression>
+	</variable>
+	<variable name="PercentageOfTumbol_HomeType_Hospital" class="java.lang.Double" resetType="Group" resetGroup="Tumbol" incrementType="Group" incrementGroup="Tumbol">
+		<variableExpression><![CDATA[($V{Sum_AllHomes_InTumbol_HomeType_Hospital} > 0)
+? (Double.valueOf($V{Sum_AllDetectedHomes_InTumbol_HomeType_Hospital}) * 100D)
+   / Double.valueOf($V{Sum_AllHomes_InTumbol_HomeType_Hospital})
+: 0.00D]]></variableExpression>
+		<initialValueExpression><![CDATA[0.00]]></initialValueExpression>
+	</variable>
+	<variable name="PercentageOfTumbol_HomeType_Hotel" class="java.lang.Double" resetType="Group" resetGroup="Tumbol" incrementType="Group" incrementGroup="Tumbol">
+		<variableExpression><![CDATA[($V{Sum_AllHomes_InTumbol_HomeType_Hotel} > 0)
+? (Double.valueOf($V{Sum_AllDetectedHomes_InTumbol_HomeType_Hotel}) * 100D)
+   / Double.valueOf($V{Sum_AllHomes_InTumbol_HomeType_Hotel})
+: 0.00D]]></variableExpression>
+		<initialValueExpression><![CDATA[0.00]]></initialValueExpression>
+	</variable>
+	<variable name="PercentageOfTumbol_HomeType_ReligiousPlace" class="java.lang.Double" resetType="Group" resetGroup="Tumbol" incrementType="Group" incrementGroup="Tumbol">
+		<variableExpression><![CDATA[($V{Sum_AllHomes_InTumbol_HomeType_ReligiousPlace} > 0)
+? (Double.valueOf($V{Sum_AllDetectedHomes_InTumbol_HomeType_ReligiousPlace}) * 100D)
+   / Double.valueOf($V{Sum_AllHomes_InTumbol_HomeType_ReligiousPlace})
+: 0.00D]]></variableExpression>
+		<initialValueExpression><![CDATA[0.00]]></initialValueExpression>
+	</variable>
+	<variable name="PercentageOfTumbol_HomeType_Factory" class="java.lang.Double" resetType="Group" resetGroup="Tumbol" incrementType="Group" incrementGroup="Tumbol">
+		<variableExpression><![CDATA[($V{Sum_AllHomes_InTumbol_HomeType_Factory} > 0)
+? (Double.valueOf($V{Sum_AllDetectedHomes_InTumbol_HomeType_Factory}) * 100D)
+   / Double.valueOf($V{Sum_AllHomes_InTumbol_HomeType_Factory})
+: 0.00D]]></variableExpression>
+		<initialValueExpression><![CDATA[0.00]]></initialValueExpression>
+	</variable>
+	<group name="SurveyHeader" isStartNewPage="true">
+		<groupExpression><![CDATA[$F{SurveyHeaderRowGUID}]]></groupExpression>
+		<groupHeader>
+			<band>
+				<printWhenExpression><![CDATA[$F{SurveyHeaderRowGUID} != null ? true : false]]></printWhenExpression>
+			</band>
+		</groupHeader>
+		<groupFooter>
+			<band/>
+		</groupFooter>
+	</group>
+	<group name="Province">
+		<groupExpression><![CDATA[$F{ProvinceCode}]]></groupExpression>
+		<groupHeader>
+			<band>
+				<printWhenExpression><![CDATA[$F{ProvinceCode} != null ? true : false]]></printWhenExpression>
+			</band>
+		</groupHeader>
+		<groupFooter>
+			<band/>
+		</groupFooter>
+	</group>
+	<group name="Amphur">
+		<groupExpression><![CDATA[$F{AmphurCode}]]></groupExpression>
+		<groupHeader>
+			<band>
+				<printWhenExpression><![CDATA[$F{AmphurCode} != null ? true : false]]></printWhenExpression>
+			</band>
+		</groupHeader>
+		<groupFooter>
+			<band/>
+		</groupFooter>
+	</group>
+	<group name="Tumbol" isStartNewPage="true">
+		<groupExpression><![CDATA[$F{TumbolCode}]]></groupExpression>
+		<groupHeader>
+			<band>
+				<printWhenExpression><![CDATA[$F{TumbolCode} != null ? true : false]]></printWhenExpression>
+			</band>
+		</groupHeader>
+		<groupFooter>
+			<band height="54">
+				<printWhenExpression><![CDATA[$V{SurveyHeader_COUNT} > 0 ? true : false]]></printWhenExpression>
+				<frame>
+					<reportElement stretchType="RelativeToBandHeight" x="0" y="0" width="802" height="25" uuid="8d6ea36d-60c7-448d-acf8-844560bb77eb"/>
+					<box>
+						<topPen lineWidth="1.0"/>
+						<leftPen lineWidth="1.0"/>
+						<bottomPen lineWidth="1.0"/>
+						<rightPen lineWidth="1.0"/>
+					</box>
+					<line>
+						<reportElement stretchType="RelativeToBandHeight" x="142" y="0" width="1" height="25" uuid="32274c1a-d6c7-4a1d-a698-f5c9a66f9eb7"/>
+					</line>
+					<line>
+						<reportElement stretchType="RelativeToBandHeight" x="184" y="0" width="1" height="25" uuid="050b64c1-c11a-4d59-b32d-adc576323033"/>
+					</line>
+					<line>
+						<reportElement stretchType="RelativeToBandHeight" x="225" y="0" width="1" height="25" uuid="946d2355-8d3f-47d3-ab78-e6445ede5905"/>
+					</line>
+					<line>
+						<reportElement stretchType="RelativeToBandHeight" x="251" y="0" width="1" height="25" uuid="3f62b1ba-c1dd-4814-8954-c909c37367a5"/>
+					</line>
+					<line>
+						<reportElement stretchType="RelativeToBandHeight" x="293" y="0" width="1" height="25" uuid="8ffd6bab-51d5-431e-a8a4-adc53e4828f5"/>
+					</line>
+					<line>
+						<reportElement stretchType="RelativeToBandHeight" x="336" y="0" width="1" height="25" uuid="4ef85be2-b616-4576-8370-2e6661f63db9"/>
+					</line>
+					<line>
+						<reportElement stretchType="RelativeToBandHeight" x="361" y="0" width="1" height="25" uuid="f4ea5186-b67b-4a07-b8dc-08fe759501e2"/>
+					</line>
+					<line>
+						<reportElement stretchType="RelativeToBandHeight" x="403" y="0" width="1" height="25" uuid="9ff7a1e4-a9d5-42d9-84c5-e58a0f7e941f"/>
+					</line>
+					<line>
+						<reportElement stretchType="RelativeToBandHeight" x="445" y="0" width="1" height="25" uuid="71989cdd-fd2d-4437-832e-ff792abb2141"/>
+					</line>
+					<line>
+						<reportElement stretchType="RelativeToBandHeight" x="471" y="0" width="1" height="25" uuid="239d4faa-844a-47b1-be6c-e879b9f9d660"/>
+					</line>
+					<line>
+						<reportElement stretchType="RelativeToBandHeight" x="513" y="0" width="1" height="25" uuid="aa643a61-8293-46a2-8498-09eb968658ff"/>
+					</line>
+					<line>
+						<reportElement stretchType="RelativeToBandHeight" x="555" y="0" width="1" height="25" uuid="a346b6f4-0428-4543-8e6b-e156806aa812"/>
+					</line>
+					<line>
+						<reportElement stretchType="RelativeToBandHeight" x="581" y="0" width="1" height="25" uuid="32f5f4fe-6602-4ed1-bbbf-459d3b674dcd"/>
+					</line>
+					<line>
+						<reportElement stretchType="RelativeToBandHeight" x="623" y="0" width="1" height="25" uuid="027e3ddb-4f7b-4e83-8506-12eba522879f"/>
+					</line>
+					<line>
+						<reportElement stretchType="RelativeToBandHeight" x="665" y="0" width="1" height="25" uuid="e5b3d462-3b0c-4f70-a2e4-684894f64a7d"/>
+					</line>
+					<line>
+						<reportElement stretchType="RelativeToBandHeight" x="692" y="0" width="1" height="25" uuid="10a0264d-5268-4b61-bb03-e13b635b3e97"/>
+					</line>
+					<line>
+						<reportElement stretchType="RelativeToBandHeight" x="733" y="0" width="1" height="25" uuid="7c5ba8e3-f02c-4f0b-8a70-3c9d82f6f8bb"/>
+					</line>
+					<line>
+						<reportElement stretchType="RelativeToBandHeight" x="775" y="0" width="1" height="25" uuid="c039d201-98a6-4074-81e8-0f8581c1f226"/>
+					</line>
+				</frame>
+				<staticText>
+					<reportElement x="0" y="0" width="142" height="25" uuid="649e10e7-369f-4f19-88b0-8716ae56ef28"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="TH Sarabun Chula" size="14" isBold="false" pdfEncoding="Identity-H"/>
+					</textElement>
+					<text><![CDATA[รวม]]></text>
+				</staticText>
+				<textField isBlankWhenNull="false">
+					<reportElement x="142" y="0" width="42" height="25" uuid="3d8d1d35-3484-4549-bc48-e3622190024f"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="TH Sarabun Chula" size="14" isBold="false" pdfEncoding="Identity-H"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$V{Sum_AllHomes_InTumbol_HomeType_Home}==0 ? "":$V{Sum_AllHomes_InTumbol_HomeType_Home}]]></textFieldExpression>
+				</textField>
+				<textField isBlankWhenNull="true">
+					<reportElement x="184" y="0" width="42" height="25" uuid="3d338120-6899-49cc-b5c9-c140a187526a"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="TH Sarabun Chula" size="14" isBold="false" pdfEncoding="Identity-H"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$V{Sum_AllDetectedHomes_InTumbol_HomeType_Home}==0 ? "":$V{Sum_AllDetectedHomes_InTumbol_HomeType_Home}]]></textFieldExpression>
+				</textField>
+				<textField pattern="###0;-###0" isBlankWhenNull="true">
+					<reportElement x="226" y="0" width="26" height="25" uuid="357e7d69-9cc8-46f5-9711-8e25b2f71011"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="TH Sarabun Chula" size="14" isBold="false" pdfEncoding="Identity-H"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$V{PercentageOfTumbol_HomeType_Home} ==0 ? "":$V{PercentageOfTumbol_HomeType_Home}]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement x="252" y="0" width="42" height="25" uuid="7f8288a8-dd84-4735-b130-1c7879b7b184"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="TH Sarabun Chula" size="14" isBold="false" pdfEncoding="Identity-H"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$V{Sum_AllHomes_InTumbol_HomeType_Academe}==0 ? "":$V{Sum_AllHomes_InTumbol_HomeType_Academe}]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement x="294" y="0" width="42" height="25" uuid="e35e8471-4d3d-4131-9f89-36bbaaa8d21f"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="TH Sarabun Chula" size="14" isBold="false" pdfEncoding="Identity-H"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$V{Sum_AllDetectedHomes_InTumbol_HomeType_Academe}== 0 ? "" :$V{Sum_AllDetectedHomes_InTumbol_HomeType_Academe}]]></textFieldExpression>
+				</textField>
+				<textField pattern="###0;-###0">
+					<reportElement x="336" y="0" width="26" height="25" uuid="393accbc-4dc1-4b74-a952-ca56400137f9"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="TH Sarabun Chula" size="14" isBold="false" pdfEncoding="Identity-H"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$V{PercentageOfTumbol_HomeType_Academe}== 0 ? "" :$V{PercentageOfTumbol_HomeType_Academe}]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement x="362" y="0" width="42" height="25" uuid="555cfe01-6f46-4f1b-8481-b1a7f07dabbb"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="TH Sarabun Chula" size="14" isBold="false" pdfEncoding="Identity-H"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$V{Sum_AllHomes_InTumbol_HomeType_Hospital}== 0 ? "" :$V{Sum_AllHomes_InTumbol_HomeType_Hospital}]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement x="404" y="0" width="42" height="25" uuid="84f635c5-8469-48dd-8d42-25a483330024"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="TH Sarabun Chula" size="14" isBold="false" pdfEncoding="Identity-H"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$V{Sum_AllDetectedHomes_InTumbol_HomeType_Hospital}== 0 ? "" :$V{Sum_AllDetectedHomes_InTumbol_HomeType_Hospital}]]></textFieldExpression>
+				</textField>
+				<textField pattern="###0;-###0">
+					<reportElement x="446" y="0" width="26" height="25" uuid="e4af01e1-3bf4-4b75-8d13-91a205133c71"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="TH Sarabun Chula" size="14" isBold="false" pdfEncoding="Identity-H"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$V{PercentageOfTumbol_HomeType_Hospital}== 0 ? "" :$V{PercentageOfTumbol_HomeType_Hospital}]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement x="472" y="0" width="42" height="25" uuid="8c7afc49-a324-4ad5-9cfe-8969f1f81f47"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="TH Sarabun Chula" size="14" isBold="false" pdfEncoding="Identity-H"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$V{Sum_AllHomes_InTumbol_HomeType_Hotel} == 0 ? "" :$V{Sum_AllHomes_InTumbol_HomeType_Hotel}]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement x="514" y="0" width="42" height="25" uuid="f3337dea-3c4b-407c-90e2-15ab17f2bcb2"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="TH Sarabun Chula" size="14" isBold="false" pdfEncoding="Identity-H"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$V{Sum_AllDetectedHomes_InTumbol_HomeType_Hotel} == 0 ? "" :$V{Sum_AllDetectedHomes_InTumbol_HomeType_Hotel}]]></textFieldExpression>
+				</textField>
+				<textField pattern="###0;-###0">
+					<reportElement x="556" y="0" width="26" height="25" uuid="868b4dba-5381-4646-8c11-b3bd3a76fddf"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="TH Sarabun Chula" size="14" isBold="false" pdfEncoding="Identity-H"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$V{PercentageOfTumbol_HomeType_Hotel}== 0 ? "" :$V{PercentageOfTumbol_HomeType_Hotel}]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement x="582" y="0" width="42" height="25" uuid="b662d054-26ca-4857-ba83-13621e30a262"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="TH Sarabun Chula" size="14" isBold="false" pdfEncoding="Identity-H"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$V{Sum_AllHomes_InTumbol_HomeType_ReligiousPlace}== 0 ? "" :$V{Sum_AllHomes_InTumbol_HomeType_ReligiousPlace}]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement x="624" y="0" width="42" height="25" uuid="635ad2fb-5764-4406-bb9a-3574011a224f"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="TH Sarabun Chula" size="14" isBold="false" pdfEncoding="Identity-H"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$V{Sum_AllDetectedHomes_InTumbol_HomeType_ReligiousPlace}  == 0 ? "" :$V{Sum_AllDetectedHomes_InTumbol_HomeType_ReligiousPlace}]]></textFieldExpression>
+				</textField>
+				<textField pattern="###0;-###0">
+					<reportElement x="666" y="0" width="26" height="25" uuid="4e57d4bb-836a-4a1d-9259-c6651abd794b"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="TH Sarabun Chula" size="14" isBold="false" pdfEncoding="Identity-H"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$V{PercentageOfTumbol_HomeType_ReligiousPlace}  == 0 ? "" :$V{PercentageOfTumbol_HomeType_ReligiousPlace}]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement x="734" y="0" width="42" height="25" uuid="ef7d0b85-4317-4bcd-bc3b-39fc44819db3"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="TH Sarabun Chula" size="14" isBold="false" pdfEncoding="Identity-H"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$V{Sum_AllDetectedHomes_InTumbol_HomeType_Factory} == 0 ? "" : $V{Sum_AllDetectedHomes_InTumbol_HomeType_Factory}]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement x="692" y="0" width="42" height="25" uuid="a5a50555-03cc-4790-8660-dc625935cac5"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="TH Sarabun Chula" size="14" isBold="false" pdfEncoding="Identity-H"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$V{Sum_AllHomes_InTumbol_HomeType_Factory} == 0 ? "" : $V{Sum_AllHomes_InTumbol_HomeType_Factory}]]></textFieldExpression>
+				</textField>
+				<textField pattern="###0;-###0">
+					<reportElement x="776" y="0" width="26" height="25" uuid="ced48d99-efb7-4280-b320-fef82a22d577"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="TH Sarabun Chula" size="14" isBold="false" pdfEncoding="Identity-H"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$V{PercentageOfTumbol_HomeType_Factory} == 0 ? "" : $V{PercentageOfTumbol_HomeType_Factory}]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement x="463" y="28" width="57" height="25" uuid="3219339a-6dfd-45c4-8aee-d0b289b36f7e"/>
+					<textElement textAlignment="Left" verticalAlignment="Bottom">
+						<font fontName="TH Sarabun Chula" size="16" isBold="true" pdfEncoding="Identity-H"/>
+					</textElement>
+					<text><![CDATA[ชื่อผู้รายงาน]]></text>
+				</staticText>
+				<textField isBlankWhenNull="false">
+					<reportElement x="521" y="28" width="133" height="25" uuid="493ee096-f098-4383-ba02-49d1293802a9"/>
+					<textElement textAlignment="Justified" verticalAlignment="Bottom">
+						<font fontName="TH Sarabun Chula" size="16" isBold="false" pdfEncoding="Identity-H"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{ReporterName}]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement x="655" y="28" width="53" height="25" uuid="e1a89803-8027-4d39-8772-ae64c8c76107"/>
+					<textElement textAlignment="Center" verticalAlignment="Bottom">
+						<font fontName="TH Sarabun Chula" size="16" isBold="true" pdfEncoding="Identity-H"/>
+					</textElement>
+					<text><![CDATA[ตำแหน่ง]]></text>
+				</staticText>
+				<textField isBlankWhenNull="false">
+					<reportElement x="709" y="28" width="103" height="25" uuid="b49dcaad-2be8-4761-9a1f-82be31497f82"/>
+					<textElement verticalAlignment="Bottom">
+						<font fontName="TH Sarabun Chula" size="16" isBold="false" pdfEncoding="Identity-H"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{ReporterRoleDescription}]]></textFieldExpression>
+				</textField>
+			</band>
+		</groupFooter>
+	</group>
+	<group name="Village">
+		<groupExpression><![CDATA[$F{VillageID}]]></groupExpression>
+		<groupHeader>
+			<band>
+				<printWhenExpression><![CDATA[$F{VillageID} != null ? true : false]]></printWhenExpression>
+			</band>
+		</groupHeader>
+		<groupFooter>
+			<band height="25">
+				<printWhenExpression><![CDATA[$V{SurveyHeader_COUNT} > 0 ? true : false]]></printWhenExpression>
+				<frame>
+					<reportElement stretchType="RelativeToBandHeight" x="0" y="0" width="802" height="25" uuid="587e07c4-cb02-4b99-892f-090cd2ec0bab"/>
+					<box>
+						<topPen lineWidth="1.0"/>
+						<leftPen lineWidth="1.0"/>
+						<bottomPen lineWidth="1.0"/>
+						<rightPen lineWidth="1.0"/>
+					</box>
+					<line>
+						<reportElement stretchType="RelativeToBandHeight" x="142" y="0" width="1" height="25" uuid="e30c6cbc-f455-4c7c-8585-e1e621130768"/>
+					</line>
+					<line>
+						<reportElement stretchType="RelativeToBandHeight" x="184" y="0" width="1" height="25" uuid="5b38d420-2454-488b-b083-f2a79d183854"/>
+					</line>
+					<line>
+						<reportElement stretchType="RelativeToBandHeight" x="225" y="0" width="1" height="25" uuid="cd5752de-5bd5-44eb-b795-0f8e6534c814"/>
+					</line>
+					<line>
+						<reportElement stretchType="RelativeToBandHeight" x="251" y="0" width="1" height="25" uuid="5f3f6e5c-d081-47f0-afcf-df5820911c3e"/>
+					</line>
+					<line>
+						<reportElement stretchType="RelativeToBandHeight" x="293" y="0" width="1" height="25" uuid="b933eb47-fbde-44d0-9e54-250570151fe3"/>
+					</line>
+					<line>
+						<reportElement stretchType="RelativeToBandHeight" x="336" y="0" width="1" height="25" uuid="ea0456eb-8000-4e8d-9ac6-0a2d2c7fe5cb"/>
+					</line>
+					<line>
+						<reportElement stretchType="RelativeToBandHeight" x="361" y="0" width="1" height="25" uuid="24843602-1fba-404f-a710-37ce4175d1b5"/>
+					</line>
+					<line>
+						<reportElement stretchType="RelativeToBandHeight" x="403" y="0" width="1" height="25" uuid="bcdbcae8-a6e4-4225-b83b-e5b4dcfce026"/>
+					</line>
+					<line>
+						<reportElement stretchType="RelativeToBandHeight" x="445" y="0" width="1" height="25" uuid="9dc1fc62-8c60-4ef2-80ad-8c2125315e25"/>
+					</line>
+					<line>
+						<reportElement stretchType="RelativeToBandHeight" x="471" y="0" width="1" height="25" uuid="3eebc43c-f20d-4fd1-bded-ca7bb922433c"/>
+					</line>
+					<line>
+						<reportElement stretchType="RelativeToBandHeight" x="513" y="0" width="1" height="25" uuid="4f7bed33-7478-412a-8867-61fbf8567ddc"/>
+					</line>
+					<line>
+						<reportElement stretchType="RelativeToBandHeight" x="555" y="0" width="1" height="25" uuid="b145f339-2b20-44e2-a5eb-db198b69ce19"/>
+					</line>
+					<line>
+						<reportElement stretchType="RelativeToBandHeight" x="581" y="0" width="1" height="25" uuid="11144133-ca48-45f2-9ac2-221310d18c33"/>
+					</line>
+					<line>
+						<reportElement stretchType="RelativeToBandHeight" x="623" y="0" width="1" height="25" uuid="0af47f5a-6d02-47fb-9abb-1460bc42c6ff"/>
+					</line>
+					<line>
+						<reportElement stretchType="RelativeToBandHeight" x="665" y="0" width="1" height="25" uuid="23ee03d4-19fa-4ff1-9a57-1c9600dee603"/>
+					</line>
+					<line>
+						<reportElement stretchType="RelativeToBandHeight" x="692" y="0" width="1" height="25" uuid="5bae6d88-7ee6-445d-bdad-1977a774301e"/>
+					</line>
+					<line>
+						<reportElement stretchType="RelativeToBandHeight" x="733" y="0" width="1" height="25" uuid="cb44da06-7b90-4cbc-b581-eec51231cff6"/>
+					</line>
+					<line>
+						<reportElement stretchType="RelativeToBandHeight" x="775" y="0" width="1" height="25" uuid="da8dbb7b-bd5b-47a9-a892-04d4b0959612"/>
+					</line>
+				</frame>
+				<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+					<reportElement x="0" y="0" width="142" height="25" uuid="1e8c4dec-2e9a-4a0a-a991-36325a320d62"/>
+					<textElement verticalAlignment="Middle">
+						<font fontName="TH Sarabun Chula" size="14" isBold="false" pdfEncoding="Identity-H"/>
+						<paragraph leftIndent="2"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{VillageName}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true">
+					<reportElement x="143" y="0" width="41" height="25" uuid="45ce5442-b21a-4968-b55f-9802f3f72347"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="TH Sarabun Chula" size="14" isBold="false" pdfEncoding="Identity-H"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$V{Count_SurveyHomes_InVillage_HomeType_Home} == 0 ? "" : $V{Count_SurveyHomes_InVillage_HomeType_Home}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true">
+					<reportElement x="185" y="0" width="40" height="25" uuid="2685afc3-41f6-4f15-88c0-eda76cd25d60"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="TH Sarabun Chula" size="14" isBold="false" pdfEncoding="Identity-H"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$V{Count_DetectedHomes_InVillage_HomeType_Home} == 0 ? "": $V{Count_DetectedHomes_InVillage_HomeType_Home}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true" pattern="###0;-###0">
+					<reportElement x="226" y="0" width="25" height="25" uuid="85b136e9-ebed-4271-8778-a53efd92d31b"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="TH Sarabun Chula" size="14" isBold="false" pdfEncoding="Identity-H"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$V{PercentageOfVillage_HomeType_Home} == 0 ? "" : $V{PercentageOfVillage_HomeType_Home}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true">
+					<reportElement x="252" y="0" width="42" height="25" uuid="bca0545a-c3c9-4183-9379-5c04f337ecfe"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="TH Sarabun Chula" size="14" isBold="false" pdfEncoding="Identity-H"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$V{Count_SurveyHomes_InVillage_HomeType_Academe} == 0 ? "" : $V{Count_SurveyHomes_InVillage_HomeType_Academe}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true">
+					<reportElement x="294" y="0" width="42" height="25" uuid="bb6b1c03-bdd1-4e3c-b68b-b0b25eeb7a60"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="TH Sarabun Chula" size="14" isBold="false" pdfEncoding="Identity-H"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$V{Count_DetectedHomes_InVillage_HomeType_Academe} == 0 ? "" : $V{Count_DetectedHomes_InVillage_HomeType_Academe}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true" pattern="###0;-###0">
+					<reportElement x="336" y="0" width="26" height="25" uuid="cd343e09-30f9-4d97-aec4-2a167588f97e"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="TH Sarabun Chula" size="14" isBold="false" pdfEncoding="Identity-H"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$V{PercentageOfVillage_HomeType_Academe} == 0 ? "":$V{PercentageOfVillage_HomeType_Academe}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true" pattern="###0;-###0">
+					<reportElement x="446" y="0" width="26" height="25" uuid="72e6d4a9-038b-419f-a3c1-f59c6e50d80e"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="TH Sarabun Chula" size="14" isBold="false" pdfEncoding="Identity-H"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$V{PercentageOfVillage_HomeType_Hospital} == 0 ? "" : $V{PercentageOfVillage_HomeType_Hospital}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true">
+					<reportElement x="404" y="0" width="42" height="25" uuid="b3695dc9-c16e-49b1-800b-7b22bff09381"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="TH Sarabun Chula" size="14" isBold="false" pdfEncoding="Identity-H"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$V{Count_DetectedHomes_InVillage_HomeType_Hospital} == 0 ? "":$V{Count_DetectedHomes_InVillage_HomeType_Hospital}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true">
+					<reportElement x="362" y="0" width="42" height="25" uuid="be4b7d4a-a342-4568-932e-43fb1581b0d3"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="TH Sarabun Chula" size="14" isBold="false" pdfEncoding="Identity-H"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$V{Count_SurveyHomes_InVillage_HomeType_Hospital} == 0 ? "":$V{Count_DetectedHomes_InVillage_HomeType_Hospital}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true">
+					<reportElement x="472" y="0" width="42" height="25" uuid="a1d88d55-e13c-4a55-a2e1-3bbb7c50451b"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="TH Sarabun Chula" size="14" isBold="false" pdfEncoding="Identity-H"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$V{Count_SurveyHomes_InVillage_HomeType_Hotel} == 0 ? "": $V{Count_SurveyHomes_InVillage_HomeType_Hotel}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true">
+					<reportElement x="514" y="0" width="42" height="25" uuid="35498785-88af-45db-a783-3e623b3359f0"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="TH Sarabun Chula" size="14" isBold="false" pdfEncoding="Identity-H"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$V{Count_DetectedHomes_InVillage_HomeType_Hotel} == 0 ? "" :$V{Count_DetectedHomes_InVillage_HomeType_Hotel}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true" pattern="###0;-###0">
+					<reportElement x="556" y="0" width="26" height="25" uuid="7b492e34-7a3b-4305-970c-7b25f320b425"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="TH Sarabun Chula" size="14" isBold="false" pdfEncoding="Identity-H"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$V{PercentageOfVillage_HomeType_Hotel} == 0 ? "" : $V{PercentageOfVillage_HomeType_Hotel}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true">
+					<reportElement x="624" y="0" width="42" height="25" uuid="cf68f9d4-90bf-4ce3-91a7-89e97f62f47c"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="TH Sarabun Chula" size="14" isBold="false" pdfEncoding="Identity-H"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$V{Count_DetectedHomes_InVillage_HomeType_ReligiousPlace} == 0 ?  "": $V{Count_DetectedHomes_InVillage_HomeType_ReligiousPlace}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true">
+					<reportElement x="582" y="0" width="42" height="25" uuid="037975d4-f579-482a-83b5-8d30929bcc4a"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="TH Sarabun Chula" size="14" isBold="false" pdfEncoding="Identity-H"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$V{Count_SurveyHomes_InVillage_HomeType_ReligiousPlace} == 0 ? "": $V{Count_SurveyHomes_InVillage_HomeType_ReligiousPlace}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true" pattern="###0;-###0">
+					<reportElement x="666" y="0" width="26" height="25" uuid="3832f4a8-cf43-41aa-b67b-0fcebc464021"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="TH Sarabun Chula" size="14" isBold="false" pdfEncoding="Identity-H"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$V{PercentageOfVillage_HomeType_ReligiousPlace} == 0 ? "": $V{PercentageOfVillage_HomeType_ReligiousPlace}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true">
+					<reportElement x="734" y="0" width="42" height="25" uuid="65b84203-aa8e-497a-acc2-cdc3cb66047e"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="TH Sarabun Chula" size="14" isBold="false" pdfEncoding="Identity-H"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$V{Count_DetectedHomes_InVillage_HomeType_Factory} == 0 ? "" : $V{Count_DetectedHomes_InVillage_HomeType_Factory}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true" pattern="###0;-###0">
+					<reportElement x="776" y="0" width="26" height="25" uuid="302bb0e5-b33a-4f41-834e-27903406a784"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="TH Sarabun Chula" size="14" isBold="false" pdfEncoding="Identity-H"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$V{PercentageOfVillage_HomeType_Factory} == 0 ? "" : $V{PercentageOfVillage_HomeType_Factory}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true">
+					<reportElement x="692" y="0" width="42" height="25" uuid="cf88e6d7-cc6b-4259-9da7-06c9241fdd8c"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="TH Sarabun Chula" size="14" isBold="false" pdfEncoding="Identity-H"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$V{Count_SurveyHomes_InVillage_HomeType_Factory} == 0 ? "" : $V{Count_SurveyHomes_InVillage_HomeType_Factory}]]></textFieldExpression>
+				</textField>
+			</band>
+		</groupFooter>
+	</group>
+	<group name="Home">
+		<groupExpression><![CDATA[$F{HomeID}]]></groupExpression>
+		<groupHeader>
+			<band>
+				<printWhenExpression><![CDATA[$F{HomeID} != null ? true : false]]></printWhenExpression>
+			</band>
+		</groupHeader>
+		<groupFooter>
+			<band>
+				<printWhenExpression><![CDATA[false]]></printWhenExpression>
+			</band>
+		</groupFooter>
+	</group>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band splitType="Stretch"/>
+	</title>
+	<pageHeader>
+		<band height="204" splitType="Stretch">
+			<staticText>
+				<reportElement x="0" y="0" width="802" height="30" uuid="509ac110-2289-4eaf-baf8-3eb2e336f8b6"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="TH Sarabun Chula" size="18" isBold="true" pdfEncoding="Identity-H"/>
+				</textElement>
+				<text><![CDATA[แบบฟอร์ม 3 แบบสรุปค่า HI, CI ระดับตำบล]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="3" y="30" width="36" height="25" uuid="ed80d503-50f8-4e4e-99ad-7c45023de457"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="TH Sarabun Chula" size="16" isBold="true" pdfEncoding="Identity-H"/>
+				</textElement>
+				<text><![CDATA[รพ.ส.ต.]]></text>
+			</staticText>
+			<textField isStretchWithOverflow="true">
+				<reportElement x="39" y="30" width="239" height="25" uuid="201d9c1c-1685-42a0-b60f-0638c3bb48b5"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="TH Sarabun Chula" size="16" isBold="true" pdfEncoding="Identity-H"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{HospitalName}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="278" y="30" width="30" height="25" uuid="c24c47fd-de48-4b6d-a297-8df08e1720ba"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="TH Sarabun Chula" size="16" isBold="true" pdfEncoding="Identity-H"/>
+				</textElement>
+				<text><![CDATA[ตำบล]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="308" y="30" width="117" height="25" uuid="46f9238c-ec52-4024-9fad-8698bbe74663"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="TH Sarabun Chula" size="16" isBold="true" pdfEncoding="Identity-H"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{TumbolName}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="425" y="30" width="30" height="25" uuid="436c14cc-a96a-4836-8420-f6588574bdfd"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="TH Sarabun Chula" size="16" isBold="true" pdfEncoding="Identity-H"/>
+				</textElement>
+				<text><![CDATA[อำเภอ]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="455" y="30" width="149" height="25" uuid="5243c934-c97c-42ae-ad1e-39df4b1bcc4e"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="TH Sarabun Chula" size="16" isBold="true" pdfEncoding="Identity-H"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{AmphurName}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="604" y="30" width="32" height="25" uuid="b65de091-4881-4d6c-8420-4e0a34dee480"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="TH Sarabun Chula" size="16" isBold="true" pdfEncoding="Identity-H"/>
+				</textElement>
+				<text><![CDATA[จังหวัด]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="636" y="30" width="169" height="25" uuid="fdc13d5e-6704-4294-aeff-8593ce27c153"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="TH Sarabun Chula" size="16" isBold="true" pdfEncoding="Identity-H"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{ProvinceName}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="3" y="55" width="26" height="25" uuid="4e592f59-f824-4283-a952-423a8053eacb"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="TH Sarabun Chula" size="16" isBold="true" pdfEncoding="Identity-H"/>
+				</textElement>
+				<text><![CDATA[เดือน]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="29" y="55" width="70" height="25" uuid="80ccc0c9-675e-444d-87b2-f9d3a5c86a18"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="TH Sarabun Chula" size="16" isBold="true" pdfEncoding="Identity-H"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{SurveyMonth}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="100" y="55" width="12" height="25" uuid="97dde538-6d42-4605-9bad-e3ae27f280c0"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="TH Sarabun Chula" size="16" isBold="true" pdfEncoding="Identity-H"/>
+				</textElement>
+				<text><![CDATA[ปี]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="113" y="55" width="87" height="25" uuid="2211f559-c2b0-4f06-a635-b47aa103226f"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="TH Sarabun Chula" size="16" isBold="true" pdfEncoding="Identity-H"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{SurveyYear}]]></textFieldExpression>
+			</textField>
+			<frame>
+				<reportElement stretchType="RelativeToBandHeight" x="0" y="84" width="802" height="120" uuid="36161314-65ff-43f6-a934-5ddd57c93df2"/>
+				<box>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<line>
+					<reportElement stretchType="RelativeToBandHeight" x="142" y="0" width="1" height="120" uuid="71ab5cea-d108-4a74-a569-d2211c130346"/>
+				</line>
+				<line>
+					<reportElement stretchType="RelativeToBandHeight" x="251" y="0" width="1" height="120" uuid="2421f538-3b74-426b-a9d2-26f846e5c147"/>
+				</line>
+				<line>
+					<reportElement stretchType="RelativeToBandHeight" x="143" y="25" width="108" height="1" uuid="aab8d68d-0b34-4d96-bd0c-e5f1bfaeffa3"/>
+				</line>
+				<line>
+					<reportElement stretchType="RelativeToBandHeight" x="184" y="26" width="1" height="94" uuid="af86119f-7e10-4d01-b7f2-5e5b1ae64ba9"/>
+				</line>
+				<line>
+					<reportElement stretchType="RelativeToBandHeight" x="225" y="26" width="1" height="94" uuid="e28ecb58-20b4-4d46-8ec5-4452649d58e4"/>
+				</line>
+				<line>
+					<reportElement stretchType="RelativeToBandHeight" x="361" y="0" width="1" height="120" uuid="65584553-ddc8-4564-86a5-ae01f0efb6ff"/>
+				</line>
+				<line>
+					<reportElement stretchType="RelativeToBandHeight" x="251" y="25" width="111" height="1" uuid="6696d9f0-0317-4114-860f-56b1e8f48845"/>
+				</line>
+				<line>
+					<reportElement stretchType="RelativeToBandHeight" x="293" y="26" width="1" height="94" uuid="b604f879-6439-4695-a63e-003362f9ce47"/>
+				</line>
+				<line>
+					<reportElement stretchType="RelativeToBandHeight" x="336" y="26" width="1" height="94" uuid="88a48ec8-8109-4e35-b2f6-b03c30ce7021"/>
+				</line>
+				<line>
+					<reportElement stretchType="RelativeToBandHeight" x="362" y="25" width="109" height="1" uuid="25d305cc-fd33-45d2-994b-e4d8e6f1d80c"/>
+				</line>
+				<line>
+					<reportElement stretchType="RelativeToBandHeight" x="403" y="26" width="1" height="94" uuid="87c5fcfc-69ff-447a-845a-89314e5892b1"/>
+				</line>
+				<line>
+					<reportElement stretchType="RelativeToBandHeight" x="445" y="26" width="1" height="94" uuid="61b2e423-4b4d-4430-a681-cb046747d566"/>
+				</line>
+				<line>
+					<reportElement stretchType="RelativeToBandHeight" x="471" y="0" width="1" height="120" uuid="d9033b37-d32c-4cf9-9472-0daa9fcd61b1"/>
+				</line>
+				<line>
+					<reportElement stretchType="RelativeToBandHeight" x="472" y="25" width="110" height="1" uuid="8ac87a72-e286-4f82-88d4-d852239654c8"/>
+				</line>
+				<line>
+					<reportElement stretchType="RelativeToBandHeight" x="513" y="26" width="1" height="94" uuid="b269814a-275a-4552-abd9-a4dc71799955"/>
+				</line>
+				<line>
+					<reportElement stretchType="RelativeToBandHeight" x="555" y="26" width="1" height="94" uuid="d9f3aac6-f7b7-4603-a9ca-e3f1cdde0329"/>
+				</line>
+				<line>
+					<reportElement stretchType="RelativeToBandHeight" x="581" y="0" width="1" height="120" uuid="1d21eac3-090b-487b-92f2-2c57739211a0"/>
+				</line>
+				<line>
+					<reportElement stretchType="RelativeToBandHeight" x="582" y="25" width="110" height="1" uuid="45b97fb9-fa3d-4238-aefa-db35af350041"/>
+				</line>
+				<line>
+					<reportElement stretchType="RelativeToBandHeight" x="623" y="26" width="1" height="94" uuid="7a55e162-29b7-4278-8ed0-f8ec4b423069"/>
+				</line>
+				<line>
+					<reportElement stretchType="RelativeToBandHeight" x="665" y="26" width="1" height="94" uuid="8efc3051-4cdf-4fd6-b2e4-0663279c64bb"/>
+				</line>
+				<line>
+					<reportElement stretchType="RelativeToBandHeight" x="692" y="0" width="1" height="120" uuid="de71c773-ef0f-4b3e-97e2-2e869736eac9"/>
+				</line>
+				<line>
+					<reportElement stretchType="RelativeToBandHeight" x="692" y="25" width="110" height="1" uuid="d6e62f0a-3844-41e9-8be9-7e5525db95a9"/>
+				</line>
+				<line>
+					<reportElement stretchType="RelativeToBandHeight" x="733" y="26" width="1" height="94" uuid="37909896-fdc4-42d2-aa86-ec2037df58ff"/>
+				</line>
+				<line>
+					<reportElement stretchType="RelativeToBandHeight" x="775" y="26" width="1" height="94" uuid="6d1bff3f-26e7-472d-b74e-14e7f1e50330"/>
+				</line>
+				<staticText>
+					<reportElement x="0" y="49" width="142" height="25" uuid="b5f9a456-7dee-498e-973e-8546ccab06d2"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="TH Sarabun Chula" size="14" isBold="true" pdfEncoding="Identity-H"/>
+					</textElement>
+					<text><![CDATA[หมู่บ้าน/หมู่ที่]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="142" y="0" width="110" height="25" uuid="b4373f0d-be74-46ac-a508-bda00c35145c"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="TH Sarabun Chula" size="14" isBold="true" pdfEncoding="Identity-H"/>
+					</textElement>
+					<text><![CDATA[ผลการสำรวจชุมชน]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="142" y="25" width="42" height="95" uuid="19bb3b11-14a5-4f8e-9b53-08342117b274"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="TH Sarabun Chula" size="14" isBold="true" pdfEncoding="Identity-H"/>
+					</textElement>
+					<text><![CDATA[จำนวน
+บ้านที่
+สำรวจ]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="184" y="25" width="42" height="95" uuid="e339c017-6b14-4c9e-8cae-426b1b465a64"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="TH Sarabun Chula" size="14" isBold="true" pdfEncoding="Identity-H"/>
+					</textElement>
+					<text><![CDATA[จำนวน
+บ้านที่
+พบลูกน้ำ]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="226" y="25" width="26" height="95" uuid="40e318ad-5ec5-4f3d-8ac1-6f868dcdc22e"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle" rotation="Left">
+						<font fontName="TH Sarabun Chula" size="14" isBold="true" pdfEncoding="Identity-H"/>
+					</textElement>
+					<text><![CDATA[ร้อยละ]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="252" y="0" width="110" height="25" uuid="1ac341bc-a48d-4455-837c-d842a06fdb63"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="TH Sarabun Chula" size="14" isBold="true" pdfEncoding="Identity-H"/>
+					</textElement>
+					<text><![CDATA[ผลการสำรวจโรงเรียน]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="252" y="25" width="41" height="95" uuid="3de1ffe4-2425-4076-a21c-d62df920ca24"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="TH Sarabun Chula" size="14" isBold="true" pdfEncoding="Identity-H"/>
+					</textElement>
+					<text><![CDATA[จำนวน
+โรงเรียน
+ที่สำรวจ]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="294" y="25" width="43" height="95" uuid="e86aba8b-9a85-4190-8a1f-9cb026eb03a0"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="TH Sarabun Chula" size="14" isBold="true" pdfEncoding="Identity-H"/>
+					</textElement>
+					<text><![CDATA[จำนวน
+โรงเรียน
+ที่พบ
+ลูกน้ำ]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="336" y="25" width="26" height="95" uuid="39fd1847-c1b0-43a0-89e9-f96e93deddce"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle" rotation="Left">
+						<font fontName="TH Sarabun Chula" size="14" isBold="true" pdfEncoding="Identity-H"/>
+					</textElement>
+					<text><![CDATA[ร้อยละ]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="404" y="25" width="42" height="95" uuid="46206ed5-f96b-4ca9-9289-702d224e30bc"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="TH Sarabun Chula" size="14" isBold="true" pdfEncoding="Identity-H"/>
+					</textElement>
+					<text><![CDATA[จำนวน
+โรงพยา
+บาลที่พบ
+ลูกน้ำ]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="362" y="25" width="42" height="95" uuid="3774e65a-2384-4a61-b8cb-67fd24ef96ea"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="TH Sarabun Chula" size="14" isBold="true" pdfEncoding="Identity-H"/>
+					</textElement>
+					<text><![CDATA[จำนวน
+โรงพยา
+บาล
+ที่สำรวจ]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="446" y="25" width="26" height="95" uuid="af1caf7d-a3c3-4728-88c1-e42df9d9157c"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle" rotation="Left">
+						<font fontName="TH Sarabun Chula" size="14" isBold="true" pdfEncoding="Identity-H"/>
+					</textElement>
+					<text><![CDATA[ร้อยละ]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="362" y="0" width="110" height="25" uuid="60ab269e-8b31-4082-99e5-40067328e022"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="TH Sarabun Chula" size="14" isBold="true" pdfEncoding="Identity-H"/>
+					</textElement>
+					<text><![CDATA[ผลการสำรวจโรงพยาบาล]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="514" y="25" width="42" height="95" uuid="2d2cc43b-ecc0-4e2d-a754-c50e2417e8e0"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="TH Sarabun Chula" size="14" isBold="true" pdfEncoding="Identity-H"/>
+					</textElement>
+					<text><![CDATA[จำนวน
+โรงแรม
+ที่พบ
+ลูกน้ำ]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="472" y="25" width="42" height="95" uuid="ab9d63c5-bdf8-4a01-810d-ee675d5656c9"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="TH Sarabun Chula" size="14" isBold="true" pdfEncoding="Identity-H"/>
+					</textElement>
+					<text><![CDATA[จำนวน
+โรงแรม
+ที่สำรวจ]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="556" y="25" width="26" height="95" uuid="1473882a-ed3f-4cb4-8d16-4a82fde7814f"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle" rotation="Left">
+						<font fontName="TH Sarabun Chula" size="14" isBold="true" pdfEncoding="Identity-H"/>
+					</textElement>
+					<text><![CDATA[ร้อยละ]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="472" y="0" width="110" height="25" uuid="7795e5b7-f781-4e8c-b6f1-6b79d38c851d"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="TH Sarabun Chula" size="14" isBold="true" pdfEncoding="Identity-H"/>
+					</textElement>
+					<text><![CDATA[ผลการสำรวจโรงแรม]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="624" y="25" width="42" height="95" uuid="a44914ab-6cdc-45af-83b9-5f20d194476c"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="TH Sarabun Chula" size="14" isBold="true" pdfEncoding="Identity-H"/>
+					</textElement>
+					<text><![CDATA[จำนวน
+ศาสน
+สถานที่
+พบลูกน้ำ]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="582" y="25" width="42" height="95" uuid="22a43075-a2be-4758-a0fd-3e8c2851b6a9"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="TH Sarabun Chula" size="14" isBold="true" pdfEncoding="Identity-H"/>
+					</textElement>
+					<text><![CDATA[จำนวน
+ศาสน
+สถาน
+ที่สำรวจ]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="666" y="25" width="26" height="95" uuid="bb9b95a6-1176-41db-beec-339d218b933f"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle" rotation="Left">
+						<font fontName="TH Sarabun Chula" size="14" isBold="true" pdfEncoding="Identity-H"/>
+					</textElement>
+					<text><![CDATA[ร้อยละ]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="582" y="0" width="110" height="25" uuid="bddcf389-090b-4905-822d-4e6fe3fa5aaf"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="TH Sarabun Chula" size="14" isBold="true" pdfEncoding="Identity-H"/>
+					</textElement>
+					<text><![CDATA[ผลการสำรวจศาสนสถาน]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="734" y="25" width="42" height="95" uuid="920d4bf5-eba2-433a-97b4-0c682c1a263d"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="TH Sarabun Chula" size="14" isBold="true" pdfEncoding="Identity-H"/>
+					</textElement>
+					<text><![CDATA[จำนวน
+โรงงาน
+ที่พบ
+ลูกน้ำ]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="692" y="25" width="42" height="95" uuid="5265acd6-3683-4464-a04f-7ba037a84f29"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="TH Sarabun Chula" size="14" isBold="true" pdfEncoding="Identity-H"/>
+					</textElement>
+					<text><![CDATA[จำนวน
+โรงงาน
+ที่สำรวจ]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="776" y="25" width="26" height="95" uuid="9cc9bf09-4e47-4fad-a88a-082b19ce12b0"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle" rotation="Left">
+						<font fontName="TH Sarabun Chula" size="14" isBold="true" pdfEncoding="Identity-H"/>
+					</textElement>
+					<text><![CDATA[ร้อยละ]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="692" y="0" width="110" height="25" uuid="5c983915-e7de-4d2b-a026-b9757ea9c349"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="TH Sarabun Chula" size="14" isBold="true" pdfEncoding="Identity-H"/>
+					</textElement>
+					<text><![CDATA[ผลการสำรวจโรงงาน]]></text>
+				</staticText>
+			</frame>
+		</band>
+	</pageHeader>
+	<columnHeader>
+		<band splitType="Stretch"/>
+	</columnHeader>
+	<detail>
+		<band splitType="Stretch"/>
+	</detail>
+	<columnFooter>
+		<band splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band height="4" splitType="Stretch"/>
+	</pageFooter>
+	<summary>
+		<band splitType="Stretch"/>
+	</summary>
+</jasperReport>

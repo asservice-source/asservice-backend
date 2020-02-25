@@ -1,0 +1,631 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="MonthlyReportForHICIMosquito (Form2 : House Index)" pageWidth="595" pageHeight="842" whenNoDataType="AllSectionsNoDetail" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="1233a7e9-c287-4d84-ab48-03e55232cd98">
+	<property name="ireport.zoom" value="1.2396694214876234"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="96"/>
+	<parameter name="SurveyHeaderRowGUID" class="java.lang.String"/>
+	<parameter name="VillageID" class="java.lang.String"/>
+	<queryString>
+		<![CDATA[EXEC Report.sp_HICI_Mosquito_Form2_HouseIndex_GetMonthlyReportData
+	@SurveyHeaderRowGUID = $P{SurveyHeaderRowGUID},
+	@VillageID = $P{VillageID}]]>
+	</queryString>
+	<field name="SurveyHeaderRowGUID" class="java.lang.String"/>
+	<field name="MonitorHICIDetailInfoRowGUID" class="java.lang.String"/>
+	<field name="SurveyMonth" class="java.lang.String"/>
+	<field name="SurveyYear" class="java.lang.String"/>
+	<field name="OSMPersonID" class="java.lang.String"/>
+	<field name="OSMName" class="java.lang.String"/>
+	<field name="ProvinceCode" class="java.lang.String"/>
+	<field name="ProvinceName" class="java.lang.String"/>
+	<field name="AmphurCode" class="java.lang.String"/>
+	<field name="AmphurName" class="java.lang.String"/>
+	<field name="TumbolCode" class="java.lang.String"/>
+	<field name="TumbolName" class="java.lang.String"/>
+	<field name="VillageID" class="java.lang.Integer"/>
+	<field name="VillageName" class="java.lang.String"/>
+	<field name="MooNo" class="java.lang.String"/>
+	<field name="HomeID" class="java.lang.Integer"/>
+	<field name="HomeNO" class="java.lang.String"/>
+	<field name="HomeName" class="java.lang.String"/>
+	<field name="HomeRoad" class="java.lang.String"/>
+	<field name="HomeSoi" class="java.lang.String"/>
+	<field name="HomeTypeCode" class="java.lang.String"/>
+	<field name="HomeTypeName" class="java.lang.String"/>
+	<field name="HostName" class="java.lang.String"/>
+	<field name="ContainerTypeID" class="java.lang.Short"/>
+	<field name="ContainerTypeName" class="java.lang.String"/>
+	<field name="TotalSurvey" class="java.lang.Short"/>
+	<field name="TotalDetect" class="java.lang.Short"/>
+	<variable name="Count_HomeInVillage" class="java.lang.Integer" resetType="Group" resetGroup="Village" calculation="DistinctCount">
+		<variableExpression><![CDATA[$F{HomeID}]]></variableExpression>
+		<initialValueExpression><![CDATA[0]]></initialValueExpression>
+	</variable>
+	<variable name="Sum_TotalSurveyOfHome" class="java.lang.Integer" resetType="Group" resetGroup="Home" calculation="Sum">
+		<variableExpression><![CDATA[$F{TotalSurvey}]]></variableExpression>
+		<initialValueExpression><![CDATA[0]]></initialValueExpression>
+	</variable>
+	<variable name="Sum_TotalDetectOfHome" class="java.lang.Integer" resetType="Group" resetGroup="Home" calculation="Sum">
+		<variableExpression><![CDATA[$F{TotalDetect}]]></variableExpression>
+		<initialValueExpression><![CDATA[0]]></initialValueExpression>
+	</variable>
+	<variable name="Count_TotalDetectedHome" class="java.lang.Integer" resetType="Group" resetGroup="Village" incrementType="Group" incrementGroup="Home" calculation="Count">
+		<variableExpression><![CDATA[$V{Sum_TotalDetectOfHome} >= 1 ? 1 : null]]></variableExpression>
+		<initialValueExpression><![CDATA[0]]></initialValueExpression>
+	</variable>
+	<variable name="Count_TotalUndetectedHome" class="java.lang.Integer" resetType="Group" resetGroup="Village" incrementType="Group" incrementGroup="Home" calculation="Count">
+		<variableExpression><![CDATA[$V{Sum_TotalDetectOfHome} == 0 ? 1 : null]]></variableExpression>
+		<initialValueExpression><![CDATA[0]]></initialValueExpression>
+	</variable>
+	<group name="Survey Header" isStartNewPage="true">
+		<groupExpression><![CDATA[$F{SurveyHeaderRowGUID}]]></groupExpression>
+		<groupHeader>
+			<band/>
+		</groupHeader>
+		<groupFooter>
+			<band/>
+		</groupFooter>
+	</group>
+	<group name="Village" isStartNewPage="true" keepTogether="true">
+		<groupExpression><![CDATA[$F{VillageID}]]></groupExpression>
+		<groupHeader>
+			<band/>
+		</groupHeader>
+		<groupFooter>
+			<band height="170">
+				<textField>
+					<reportElement x="357" y="0" width="99" height="25" uuid="8fbbb414-3aef-4931-bfad-6b57aaaa2646"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="TH Sarabun Chula" size="16" isBold="false" pdfEncoding="Identity-H"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$V{Count_TotalDetectedHome}]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement x="0" y="0" width="356" height="25" uuid="60e77fb0-2436-41c8-965d-e489c1b0d9a4"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="TH Sarabun Chula" size="16" isBold="true" pdfEncoding="Identity-H"/>
+					</textElement>
+					<text><![CDATA[รวม]]></text>
+				</staticText>
+				<textField>
+					<reportElement x="456" y="0" width="99" height="25" uuid="4e77c63c-1ea2-47c0-bae0-f0ded1c4b908"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="TH Sarabun Chula" size="16" isBold="false" pdfEncoding="Identity-H"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$V{Count_TotalUndetectedHome}]]></textFieldExpression>
+				</textField>
+				<frame>
+					<reportElement stretchType="RelativeToTallestObject" x="1" y="0" width="355" height="25" uuid="0bdf4d03-2a88-4671-b51b-a90f4ad465e9"/>
+					<box>
+						<topPen lineWidth="1.0"/>
+						<leftPen lineWidth="1.0"/>
+						<bottomPen lineWidth="4.0" lineStyle="Double"/>
+						<rightPen lineWidth="1.0"/>
+					</box>
+				</frame>
+				<frame>
+					<reportElement stretchType="RelativeToTallestObject" x="356" y="0" width="100" height="25" uuid="010235e5-1d88-4d25-a509-12db644e949f"/>
+					<box>
+						<topPen lineWidth="1.0"/>
+						<leftPen lineWidth="1.0"/>
+						<bottomPen lineWidth="4.0" lineStyle="Double"/>
+						<rightPen lineWidth="1.0"/>
+					</box>
+				</frame>
+				<frame>
+					<reportElement stretchType="RelativeToTallestObject" x="456" y="0" width="99" height="25" uuid="8bc5fe44-4abf-4684-bfad-eda676595720"/>
+					<box>
+						<topPen lineWidth="1.0"/>
+						<leftPen lineWidth="1.0"/>
+						<bottomPen lineWidth="4.0" lineStyle="Double"/>
+						<rightPen lineWidth="1.0"/>
+					</box>
+				</frame>
+				<staticText>
+					<reportElement x="455" y="142" width="30" height="25" uuid="9380f4cb-1da2-48d0-956a-1efa1266dc4b"/>
+					<textElement textAlignment="Left" verticalAlignment="Middle">
+						<font fontName="TH Sarabun Chula" size="16" isBold="false" pdfEncoding="Identity-H"/>
+						<paragraph leftIndent="4"/>
+					</textElement>
+					<text><![CDATA[วันที่]]></text>
+				</staticText>
+				<textField isBlankWhenNull="true">
+					<reportElement x="311" y="142" width="144" height="25" uuid="af4ac9f3-947c-45ce-958d-7aaa203f9a2d"/>
+					<textElement textAlignment="Left" verticalAlignment="Middle">
+						<font fontName="TH Sarabun Chula" size="16" isBold="false" pdfEncoding="Identity-H"/>
+						<paragraph leftIndent="4"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{OSMName}]]></textFieldExpression>
+				</textField>
+				<textField pattern="dd/MM/yyyy">
+					<reportElement x="485" y="142" width="70" height="25" uuid="ed2cd28c-9ac4-4bd7-b3aa-6e7c47fe018e"/>
+					<textElement textAlignment="Left" verticalAlignment="Middle">
+						<font fontName="TH Sarabun Chula" size="16" isBold="false" pdfEncoding="Identity-H"/>
+						<paragraph leftIndent="4"/>
+					</textElement>
+					<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement x="538" y="102" width="17" height="25" uuid="42fb3ec1-3765-41a1-9df6-3ff629ade4dd"/>
+					<textElement textAlignment="Left" verticalAlignment="Middle">
+						<font fontName="TH Sarabun Chula" size="16" isBold="true" isUnderline="false" pdfEncoding="Identity-H"/>
+						<paragraph leftIndent="4"/>
+					</textElement>
+					<text><![CDATA[%]]></text>
+				</staticText>
+				<textField pattern="#,##0.00;-#,##0.00" isBlankWhenNull="true">
+					<reportElement x="479" y="102" width="59" height="25" uuid="b9395c48-c579-4649-9756-520b809184c6"/>
+					<textElement textAlignment="Left" verticalAlignment="Middle">
+						<font fontName="TH Sarabun Chula" size="16" isBold="true" isUnderline="false" pdfEncoding="Identity-H"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$V{Count_TotalDetectedHome} > 0
+? ((Double.valueOf($V{Count_TotalDetectedHome}) + Double.valueOf($V{Count_TotalUndetectedHome})) / Double.valueOf($V{Count_TotalDetectedHome})) * 100D
+: null]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement x="251" y="142" width="60" height="25" uuid="ff6dfdfc-2ec9-4992-bcbc-6fedc6fdced3"/>
+					<textElement textAlignment="Left" verticalAlignment="Middle">
+						<font fontName="TH Sarabun Chula" size="16" isBold="false" pdfEncoding="Identity-H"/>
+						<paragraph leftIndent="4"/>
+					</textElement>
+					<text><![CDATA[ชื่อผู้รายงาน]]></text>
+				</staticText>
+				<textField>
+					<reportElement x="201" y="42" width="52" height="25" uuid="c608522d-93a4-493c-a51f-fd27c2c4808d"/>
+					<textElement textAlignment="Left" verticalAlignment="Middle">
+						<font fontName="TH Sarabun Chula" size="16" isBold="false" pdfEncoding="Identity-H"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$V{Count_TotalDetectedHome} + $V{Count_TotalUndetectedHome}]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement x="253" y="42" width="25" height="25" uuid="d54383c8-1eaf-408b-9d6c-8c1e33645290"/>
+					<textElement textAlignment="Left" verticalAlignment="Middle">
+						<font fontName="TH Sarabun Chula" size="16" isBold="false" pdfEncoding="Identity-H"/>
+						<paragraph leftIndent="4"/>
+					</textElement>
+					<text><![CDATA[หลัง]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="42" y="67" width="159" height="25" uuid="db5b0428-d4a1-4a8d-8881-3bfb754a3ac6"/>
+					<textElement textAlignment="Left" verticalAlignment="Middle">
+						<font fontName="TH Sarabun Chula" size="16" isBold="false" pdfEncoding="Identity-H"/>
+						<paragraph leftIndent="4"/>
+					</textElement>
+					<text><![CDATA[จำนวนบ้านที่พบลูกน้ำยุงลาย (A) = ]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="536" y="0" width="18" height="25" uuid="ea8ae6bb-6437-4ee5-b904-834ccb15953a"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="TH Sarabun Chula" size="16" isBold="true" pdfEncoding="Identity-H"/>
+						<paragraph rightIndent="3"/>
+					</textElement>
+					<text><![CDATA[(B)]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="437" y="0" width="18" height="25" uuid="4ddfbf05-5a86-4c07-bb20-c1029c4069d1"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="TH Sarabun Chula" size="16" isBold="true" pdfEncoding="Identity-H"/>
+						<paragraph rightIndent="3"/>
+					</textElement>
+					<text><![CDATA[(A)]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="42" y="42" width="159" height="25" uuid="0be944f2-8c95-4a8c-81ed-77405273f40b"/>
+					<textElement textAlignment="Left" verticalAlignment="Middle">
+						<font fontName="TH Sarabun Chula" size="16" isBold="false" pdfEncoding="Identity-H"/>
+						<paragraph leftIndent="4"/>
+					</textElement>
+					<text><![CDATA[จำนวนบ้านที่สำรวจทั้งหมด (A+B) = ]]></text>
+				</staticText>
+				<textField>
+					<reportElement x="201" y="67" width="52" height="25" uuid="650b658c-8806-4588-b4bb-8f995c029dfc"/>
+					<textElement textAlignment="Left" verticalAlignment="Middle">
+						<font fontName="TH Sarabun Chula" size="16" isBold="false" pdfEncoding="Identity-H"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$V{Count_TotalDetectedHome}]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement x="253" y="67" width="25" height="25" uuid="bb4dfaaf-4107-42c2-9ade-d3a113751e00"/>
+					<textElement textAlignment="Left" verticalAlignment="Middle">
+						<font fontName="TH Sarabun Chula" size="16" isBold="false" pdfEncoding="Identity-H"/>
+						<paragraph leftIndent="4"/>
+					</textElement>
+					<text><![CDATA[หลัง]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="268" y="102" width="211" height="25" uuid="b8b32f70-92fb-4dde-9aa2-a60f7b7e7f18"/>
+					<textElement textAlignment="Left" verticalAlignment="Middle">
+						<font fontName="TH Sarabun Chula" size="16" isBold="true" pdfEncoding="Identity-H"/>
+						<paragraph leftIndent="4"/>
+					</textElement>
+					<text><![CDATA[ค่า HI (House Index) = (A+B) / A X 100 = ]]></text>
+				</staticText>
+			</band>
+		</groupFooter>
+	</group>
+	<group name="Home">
+		<groupExpression><![CDATA[$F{HomeID}]]></groupExpression>
+		<groupHeader>
+			<band/>
+		</groupHeader>
+		<groupFooter>
+			<band height="30">
+				<frame>
+					<reportElement stretchType="RelativeToTallestObject" x="1" y="0" width="34" height="30" uuid="cc89fc48-575f-4aac-8bb0-51d65e74887c"/>
+					<box>
+						<topPen lineWidth="1.0"/>
+						<leftPen lineWidth="1.0"/>
+						<bottomPen lineWidth="1.0"/>
+						<rightPen lineWidth="1.0"/>
+					</box>
+				</frame>
+				<frame>
+					<reportElement stretchType="RelativeToTallestObject" x="35" y="0" width="50" height="30" uuid="f3ed0645-2bf8-4121-bda4-14839ffdcc43"/>
+					<box>
+						<topPen lineWidth="1.0"/>
+						<leftPen lineWidth="1.0"/>
+						<bottomPen lineWidth="1.0"/>
+						<rightPen lineWidth="1.0"/>
+					</box>
+				</frame>
+				<frame>
+					<reportElement stretchType="RelativeToTallestObject" x="172" y="0" width="184" height="30" uuid="b91bbce4-52d5-42dc-9a5f-b1579d690272"/>
+					<box>
+						<topPen lineWidth="1.0"/>
+						<leftPen lineWidth="1.0"/>
+						<bottomPen lineWidth="1.0"/>
+						<rightPen lineWidth="1.0"/>
+					</box>
+				</frame>
+				<frame>
+					<reportElement stretchType="RelativeToTallestObject" x="85" y="0" width="87" height="30" uuid="f61a6e40-d2cd-43e8-9220-67ffdd489f3a"/>
+					<box>
+						<topPen lineWidth="1.0"/>
+						<leftPen lineWidth="1.0"/>
+						<bottomPen lineWidth="1.0"/>
+						<rightPen lineWidth="1.0"/>
+					</box>
+				</frame>
+				<frame>
+					<reportElement stretchType="RelativeToTallestObject" x="356" y="0" width="100" height="30" uuid="c1b724ed-3392-4984-abb2-9b451a932ec4"/>
+					<box>
+						<topPen lineWidth="1.0"/>
+						<leftPen lineWidth="1.0"/>
+						<bottomPen lineWidth="1.0"/>
+						<rightPen lineWidth="1.0"/>
+					</box>
+				</frame>
+				<frame>
+					<reportElement stretchType="RelativeToTallestObject" x="456" y="0" width="99" height="30" uuid="f0b00efe-b41f-4a0f-b12c-df0de9dd25bf"/>
+					<box>
+						<topPen lineWidth="1.0"/>
+						<leftPen lineWidth="1.0"/>
+						<bottomPen lineWidth="1.0"/>
+						<rightPen lineWidth="1.0"/>
+					</box>
+				</frame>
+				<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+					<reportElement x="172" y="0" width="184" height="30" uuid="0d5bf595-bffc-49a8-9a13-c46e53d39e62"/>
+					<textElement verticalAlignment="Middle">
+						<font fontName="TH Sarabun Chula" size="16" pdfEncoding="Identity-H" isPdfEmbedded="true"/>
+						<paragraph leftIndent="4"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{HostName} != null ? $F{HostName} : $F{HomeName}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+					<reportElement x="35" y="0" width="50" height="30" uuid="7a88e811-68bc-423b-b7a5-c2488188492d"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="TH Sarabun Chula" size="16" pdfEncoding="Identity-H" isPdfEmbedded="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{HomeNO}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+					<reportElement x="356" y="0" width="100" height="30" uuid="b6834324-8eb2-4067-ab71-9f224d691157"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="TH Sarabun Chula" size="16" pdfEncoding="Identity-H" isPdfEmbedded="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$V{Sum_TotalDetectOfHome} >= 1 ? "/" : ""]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+					<reportElement x="456" y="0" width="100" height="30" uuid="687088e7-5a9b-41dc-9bf5-134baab5c5a5"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="TH Sarabun Chula" size="16" pdfEncoding="Identity-H" isPdfEmbedded="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$V{Sum_TotalDetectOfHome} == 0 ? "/" : ""]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+					<reportElement x="1" y="0" width="34" height="30" uuid="1e259b60-2997-4069-8279-e003d7e85dc0"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="TH Sarabun Chula" size="16" pdfEncoding="Identity-H" isPdfEmbedded="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$V{Count_HomeInVillage}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+					<reportElement x="85" y="0" width="87" height="30" uuid="26d93279-3ff3-4557-b465-943751f6dfbc"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="TH Sarabun Chula" size="16" pdfEncoding="Identity-H" isPdfEmbedded="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{HomeSoi}]]></textFieldExpression>
+				</textField>
+			</band>
+		</groupFooter>
+	</group>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band splitType="Stretch"/>
+	</title>
+	<pageHeader>
+		<band height="240" splitType="Stretch">
+			<image scaleImage="RetainShape" isUsingCache="true">
+				<reportElement x="217" y="0" width="167" height="118" uuid="5de79fc1-85f6-47b2-9834-d898ab24548b"/>
+				<imageExpression><![CDATA[".\\Logo_Ministry_of_Public_Health.png"]]></imageExpression>
+			</image>
+			<staticText>
+				<reportElement x="113" y="122" width="329" height="30" uuid="c91d3285-4ce3-41d9-98bf-3132cfa3a8b4"/>
+				<textElement>
+					<font fontName="TH Sarabun Chula" size="20" isBold="true" pdfEncoding="Identity-H"/>
+				</textElement>
+				<text><![CDATA[แบบฟอร์ม 2 แบบรายงานการสำรวจค่า HI (House Index)]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="207" width="28" height="25" uuid="dc4a3d15-2103-4182-ab8e-7db3cead06d7"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="TH Sarabun Chula" size="16" isBold="true" pdfEncoding="Identity-H"/>
+				</textElement>
+				<text><![CDATA[ตำบล]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="28" y="207" width="128" height="25" uuid="f66b4be5-d1f5-4285-bdfe-a3cbde9a8944"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="TH Sarabun Chula" size="16" isBold="true" pdfEncoding="Identity-H"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{TumbolName} != null ? $F{TumbolName} : "-"]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="210" y="207" width="30" height="25" uuid="00e99c80-8d29-43da-9a0e-1c204ab4df3c"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="TH Sarabun Chula" size="16" isBold="true" pdfEncoding="Identity-H"/>
+				</textElement>
+				<text><![CDATA[อำเภอ]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="240" y="207" width="127" height="25" uuid="e37902d1-93ec-4a22-a7c1-c4f56d9de912"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="TH Sarabun Chula" size="16" isBold="true" pdfEncoding="Identity-H"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{AmphurName} != null ? $F{AmphurName} : "-"]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="367" y="207" width="35" height="25" uuid="bdd5a4c0-d483-4e55-a7db-24d7d577a4e4"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="TH Sarabun Chula" size="16" isBold="true" pdfEncoding="Identity-H"/>
+				</textElement>
+				<text><![CDATA[จังหวัด]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="402" y="207" width="153" height="25" uuid="19cc75c1-f485-4586-9f39-5aa3cc379036"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="TH Sarabun Chula" size="16" isBold="true" pdfEncoding="Identity-H"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{ProvinceName} != null ? $F{ProvinceName} : "-"]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="0" y="182" width="28" height="25" uuid="e9369427-cb62-4997-b848-4bf562209c02"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="TH Sarabun Chula" size="16" isBold="true" pdfEncoding="Identity-H"/>
+				</textElement>
+				<text><![CDATA[อสม.]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="28" y="182" width="144" height="25" uuid="84b27d36-6074-408c-b85a-e061a8ca1e7c"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="TH Sarabun Chula" size="16" isBold="true" pdfEncoding="Identity-H"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{OSMName} != null ? $F{OSMName} : "-"]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="172" y="182" width="38" height="25" uuid="60e3dafe-0d15-4dbe-bae0-a1a4721419bd"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="TH Sarabun Chula" size="16" isBold="true" pdfEncoding="Identity-H"/>
+				</textElement>
+				<text><![CDATA[หมู่บ้าน]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="210" y="182" width="163" height="25" uuid="247d95b1-42e3-471c-96c1-0f8914897bb5"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="TH Sarabun Chula" size="16" isBold="true" pdfEncoding="Identity-H"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{VillageName} != null ? $F{VillageName} : "-"]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="373" y="182" width="27" height="25" uuid="aae34f51-f62a-4ef2-a4dd-c2e201b37acb"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="TH Sarabun Chula" size="16" isBold="true" pdfEncoding="Identity-H"/>
+				</textElement>
+				<text><![CDATA[ถนน]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="400" y="182" width="144" height="25" uuid="ca4db095-fe66-432f-84be-6ef4a6bf563d"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="TH Sarabun Chula" size="16" isBold="true" pdfEncoding="Identity-H"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{HomeRoad} != null ? $F{HomeRoad} : "-"]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="303" y="152" width="49" height="25" uuid="6f50934d-1a92-499c-a21f-242a65ff9ee4"/>
+				<textElement>
+					<font fontName="TH Sarabun Chula" size="16" isBold="true" pdfEncoding="Identity-H"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{SurveyYear} != null ? Integer.valueOf($F{SurveyYear}) + 543 : "-"]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="230" y="152" width="55" height="25" uuid="7145efe6-2300-4bd8-a0cb-b6a7e27d4db2"/>
+				<textElement>
+					<font fontName="TH Sarabun Chula" size="16" isBold="true" pdfEncoding="Identity-H"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{SurveyMonth} != null ? $F{SurveyMonth} : "-"]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="286" y="152" width="17" height="25" uuid="07e0037e-98c8-4edf-bcf2-e8f951f2a6b2"/>
+				<textElement>
+					<font fontName="TH Sarabun Chula" size="16" isBold="true" pdfEncoding="Identity-H"/>
+				</textElement>
+				<text><![CDATA[ปี]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="204" y="152" width="26" height="25" uuid="5281469b-b9b0-460d-9cce-8c30435d1532"/>
+				<textElement>
+					<font fontName="TH Sarabun Chula" size="16" isBold="true" pdfEncoding="Identity-H"/>
+				</textElement>
+				<text><![CDATA[เดือน]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="156" y="207" width="20" height="25" uuid="a87a00ed-494a-49f2-b4c7-093cedead7cc"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="TH Sarabun Chula" size="16" isBold="true" pdfEncoding="Identity-H"/>
+				</textElement>
+				<text><![CDATA[หมู่]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="176" y="207" width="34" height="25" uuid="491ad8e5-933b-4f41-88bc-5379b004435b"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="TH Sarabun Chula" size="16" isBold="true" pdfEncoding="Identity-H"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{MooNo} != null ? $F{MooNo} : "-"]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageHeader>
+	<columnHeader>
+		<band height="70">
+			<frame>
+				<reportElement x="1" y="0" width="34" height="70" uuid="03820b32-aa30-4780-8bca-a7fd85f8182b"/>
+				<box>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+			</frame>
+			<frame>
+				<reportElement x="35" y="0" width="50" height="70" uuid="cb12d6cb-2afb-4491-a526-c160613b99c0"/>
+				<box>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+			</frame>
+			<frame>
+				<reportElement x="172" y="0" width="184" height="70" uuid="941ad1ae-d7ec-4389-8506-453648f9eeea"/>
+				<box>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+			</frame>
+			<frame>
+				<reportElement x="85" y="0" width="87" height="70" uuid="5f5fd37b-342d-42a5-b75e-bc40263e914d"/>
+				<box>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+			</frame>
+			<frame>
+				<reportElement x="356" y="0" width="199" height="35" uuid="ad0f65e8-72a0-48d5-9418-c64893c44a3e"/>
+				<box>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+			</frame>
+			<frame>
+				<reportElement x="356" y="35" width="100" height="35" uuid="4c63f571-52c5-4bc4-931f-f48bce113364"/>
+				<box>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+			</frame>
+			<frame>
+				<reportElement x="456" y="35" width="99" height="35" uuid="6cc77dac-2393-4f88-9a3c-59bd50f79a9f"/>
+				<box>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+			</frame>
+			<staticText>
+				<reportElement x="172" y="0" width="184" height="70" uuid="ae84aefe-8517-4d11-8397-3b75eaa8c767"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="TH Sarabun Chula" size="16" isBold="true" pdfEncoding="Identity-H"/>
+				</textElement>
+				<text><![CDATA[เจ้าบ้าน]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="1" y="0" width="34" height="70" uuid="2be64eab-d39c-400f-8ab2-196b952c9bb7"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="TH Sarabun Chula" size="16" isBold="true" pdfEncoding="Identity-H"/>
+				</textElement>
+				<text><![CDATA[ลำดับ]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="356" y="0" width="199" height="35" uuid="8ebb6e95-8b06-4806-aa1a-77b0d196a895"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="TH Sarabun Chula" size="16" isBold="true" pdfEncoding="Identity-H"/>
+				</textElement>
+				<text><![CDATA[ผลการสำรวจ]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="356" y="35" width="100" height="35" uuid="8c3b869e-0357-4945-964d-ea77cbcfcc30"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="TH Sarabun Chula" size="16" isBold="true" pdfEncoding="Identity-H"/>
+				</textElement>
+				<text><![CDATA[พบลูกน้ำ]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="455" y="35" width="100" height="35" uuid="03fe9ac4-659a-4d72-93d5-9627d070c040"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="TH Sarabun Chula" size="16" isBold="true" pdfEncoding="Identity-H"/>
+				</textElement>
+				<text><![CDATA[ไม่พบลูกน้ำ]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="35" y="0" width="50" height="70" uuid="e6325158-6d43-436c-a145-9168dae8526d"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="TH Sarabun Chula" size="16" isBold="true" pdfEncoding="Identity-H"/>
+				</textElement>
+				<text><![CDATA[บ้านเลขที่]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="85" y="0" width="87" height="70" uuid="f12bcc7a-c27f-4227-906b-8b3d88c2cc6b"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="TH Sarabun Chula" size="16" isBold="true" pdfEncoding="Identity-H"/>
+				</textElement>
+				<text><![CDATA[ซอย]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band splitType="Stretch"/>
+	</detail>
+	<columnFooter>
+		<band splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band splitType="Stretch"/>
+	</pageFooter>
+	<lastPageFooter>
+		<band/>
+	</lastPageFooter>
+	<summary>
+		<band height="42" splitType="Stretch"/>
+	</summary>
+</jasperReport>

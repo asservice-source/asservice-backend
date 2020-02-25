@@ -1,0 +1,1168 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="MonthlyDeathReport(Specific OSM and Survey Header)" pageWidth="842" pageHeight="595" orientation="Landscape" whenNoDataType="AllSectionsNoDetail" columnWidth="786" leftMargin="36" rightMargin="20" topMargin="20" bottomMargin="20" uuid="c2efb854-efe7-467c-be75-d024c3173a9c">
+	<property name="ireport.zoom" value="1.1269722013523669"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="ASService"/>
+	<parameter name="SurveyHeaderRowGUID" class="java.lang.String"/>
+	<parameter name="OSMCitizenID" class="java.lang.String"/>
+	<parameter name="OSMName" class="java.lang.String">
+		<defaultValueExpression><![CDATA["อารักษ์ จิตอาสา"]]></defaultValueExpression>
+	</parameter>
+	<parameter name="HospitalTelephone" class="java.lang.String">
+		<defaultValueExpression><![CDATA["045-1235123"]]></defaultValueExpression>
+	</parameter>
+	<parameter name="SurveyMoo" class="java.lang.String">
+		<parameterDescription><![CDATA[]]></parameterDescription>
+		<defaultValueExpression><![CDATA[String.valueOf("1")]]></defaultValueExpression>
+	</parameter>
+	<parameter name="SurveyTumbol" class="java.lang.String">
+		<defaultValueExpression><![CDATA["สะเตง"]]></defaultValueExpression>
+	</parameter>
+	<parameter name="SurveyAmphur" class="java.lang.String">
+		<defaultValueExpression><![CDATA["เมืองยะลา"]]></defaultValueExpression>
+	</parameter>
+	<parameter name="SurveyProvince" class="java.lang.String">
+		<defaultValueExpression><![CDATA["ยะลา"]]></defaultValueExpression>
+	</parameter>
+	<parameter name="ThaiSurveyMonth" class="java.lang.String">
+		<defaultValueExpression><![CDATA["มกราคม"]]></defaultValueExpression>
+	</parameter>
+	<parameter name="SurveyYear" class="java.lang.String" isForPrompting="false">
+		<defaultValueExpression><![CDATA["2007"]]></defaultValueExpression>
+	</parameter>
+	<queryString>
+		<![CDATA[{ call Report.sp_death_getMonthlyReportDataForDeadPersons($P{SurveyHeaderRowGUID}, $P{OSMCitizenID}) }]]>
+	</queryString>
+	<field name="SurveyHeaderRowGUID" class="java.lang.String"/>
+	<field name="SurveyHeaderRound" class="java.lang.String"/>
+	<field name="SurveyMonthYear" class="java.lang.String"/>
+	<field name="ThaiSurveyMonth" class="java.lang.String"/>
+	<field name="SurveyYear" class="java.lang.String"/>
+	<field name="OSMID" class="java.lang.String"/>
+	<field name="OSMName" class="java.lang.String"/>
+	<field name="HospitalTelephone" class="java.lang.String"/>
+	<field name="SurveyMoo" class="java.lang.String"/>
+	<field name="SurveyTumbol" class="java.lang.String"/>
+	<field name="SurveyAmphur" class="java.lang.String"/>
+	<field name="SurveyProvince" class="java.lang.String"/>
+	<field name="SurveyMonth" class="java.lang.Integer"/>
+	<field name="DeadPersonName" class="java.lang.String"/>
+	<field name="DeadPersonCitizenID" class="java.lang.String"/>
+	<field name="DeadPersonHomeNO" class="java.lang.String"/>
+	<field name="DeadPersonAge" class="java.lang.Short"/>
+	<field name="DeadPersonDeathDate" class="java.sql.Timestamp"/>
+	<field name="IsDiabetes" class="java.lang.Boolean"/>
+	<field name="IsHypertension" class="java.lang.Boolean"/>
+	<field name="IsAccident" class="java.lang.Boolean"/>
+	<field name="IsCancer" class="java.lang.Boolean"/>
+	<field name="CauseCancer" class="java.lang.String"/>
+	<field name="CauseOther" class="java.lang.String"/>
+	<field name="IsCongenitalDisease" class="java.lang.Boolean"/>
+	<field name="DeathPlaceCode" class="java.lang.String"/>
+	<field name="DeathPlaceOther" class="java.lang.String"/>
+	<field name="DeathDetailOperationDate" class="java.sql.Timestamp"/>
+	<variable name="IsDiabetes_MonthlySummary" class="java.lang.Integer" resetType="Group" resetGroup="SurveyHeader (Month-Year)" calculation="Count">
+		<variableExpression><![CDATA[$F{IsDiabetes} ? $F{IsDiabetes} : null]]></variableExpression>
+	</variable>
+	<variable name="IsHypertension_MonthlySummary" class="java.lang.Integer" resetType="Group" resetGroup="SurveyHeader (Month-Year)" calculation="Count">
+		<variableExpression><![CDATA[$F{IsHypertension} ? $F{IsHypertension} : null]]></variableExpression>
+	</variable>
+	<variable name="IsAccident_MonthlySummary" class="java.lang.Integer" resetType="Group" resetGroup="SurveyHeader (Month-Year)" calculation="Count">
+		<variableExpression><![CDATA[$F{IsAccident} ? $F{IsAccident} : null]]></variableExpression>
+	</variable>
+	<variable name="IsCancer_MonthlySummary" class="java.lang.Integer" resetType="Group" resetGroup="SurveyHeader (Month-Year)" calculation="Count">
+		<variableExpression><![CDATA[$F{IsCancer} ? $F{IsCancer} : null]]></variableExpression>
+	</variable>
+	<variable name="CauseOther_MonthlySummary" class="java.lang.Integer" resetType="Group" resetGroup="SurveyHeader (Month-Year)" calculation="Count">
+		<variableExpression><![CDATA["".equals($F{CauseOther}.trim()) ? null : $F{CauseOther}]]></variableExpression>
+	</variable>
+	<variable name="IsCongenitalDisease_MonthlySummary" class="java.lang.Integer" resetType="Group" resetGroup="SurveyHeader (Month-Year)" calculation="Count">
+		<variableExpression><![CDATA[$F{IsCongenitalDisease} ? null : $F{IsCongenitalDisease}]]></variableExpression>
+	</variable>
+	<variable name="DeathPlaceCode_Home_MonthlySummary" class="java.lang.Integer" resetType="Group" resetGroup="SurveyHeader (Month-Year)" calculation="Count">
+		<variableExpression><![CDATA["1".equals($F{DeathPlaceCode}) ? $F{DeathPlaceCode} : null]]></variableExpression>
+	</variable>
+	<variable name="DeathPlaceCode_Hospital_MonthlySummary" class="java.lang.Integer" resetType="Group" resetGroup="SurveyHeader (Month-Year)" calculation="Count">
+		<variableExpression><![CDATA["2".equals($F{DeathPlaceCode}) ? $F{DeathPlaceCode} : null]]></variableExpression>
+	</variable>
+	<variable name="DeathPlaceCode_Road_MonthlySummary" class="java.lang.Integer" resetType="Group" resetGroup="SurveyHeader (Month-Year)" calculation="Count">
+		<variableExpression><![CDATA["3".equals($F{DeathPlaceCode}) ? $F{DeathPlaceCode} : null]]></variableExpression>
+	</variable>
+	<variable name="DeathPlaceCode_WaterSource_MonthlySummary" class="java.lang.Integer" resetType="Group" resetGroup="SurveyHeader (Month-Year)" calculation="Count">
+		<variableExpression><![CDATA["4".equals($F{DeathPlaceCode}) ? $F{DeathPlaceCode} : null]]></variableExpression>
+	</variable>
+	<variable name="DeathPlaceCode_Other_MonthlySummary" class="java.lang.Integer" resetType="Group" resetGroup="SurveyHeader (Month-Year)" calculation="Count">
+		<variableExpression><![CDATA["9".equals($F{DeathPlaceCode}) ? $F{DeathPlaceCode} : null]]></variableExpression>
+	</variable>
+	<variable name="IsDiabetes_OSMSummary" class="java.lang.Integer" resetType="Group" resetGroup="OSM" calculation="Count">
+		<variableExpression><![CDATA[$F{IsDiabetes} ? $F{IsDiabetes} : null]]></variableExpression>
+	</variable>
+	<variable name="IsHypertension_OSMSummary" class="java.lang.Integer" resetType="Group" resetGroup="OSM" calculation="Count">
+		<variableExpression><![CDATA[$F{IsHypertension} ? $F{IsHypertension} : null]]></variableExpression>
+	</variable>
+	<variable name="IsAccident_OSMSummary" class="java.lang.Integer" resetType="Group" resetGroup="OSM" calculation="Count">
+		<variableExpression><![CDATA[$F{IsAccident} ? $F{IsAccident} : null]]></variableExpression>
+	</variable>
+	<variable name="IsCancer_OSMSummary" class="java.lang.Integer" resetType="Group" resetGroup="OSM" calculation="Count">
+		<variableExpression><![CDATA[$F{IsCancer} ? $F{IsCancer} : null]]></variableExpression>
+	</variable>
+	<variable name="CauseOther_OSMSummary" class="java.lang.Integer" resetType="Group" resetGroup="OSM" calculation="Count">
+		<variableExpression><![CDATA[$F{CauseOther}.trim().length() > 0 ? $F{CauseOther} : null]]></variableExpression>
+	</variable>
+	<variable name="IsCongenitalDisease_OSMSummary" class="java.lang.Integer" resetType="Group" resetGroup="OSM" calculation="Count">
+		<variableExpression><![CDATA[$F{IsCongenitalDisease} ? null : $F{IsCongenitalDisease}]]></variableExpression>
+	</variable>
+	<variable name="DeathPlaceCode_Home_OSMSummary" class="java.lang.Integer" resetType="Group" resetGroup="OSM" calculation="Count">
+		<variableExpression><![CDATA["1".equals($F{DeathPlaceCode}) ? $F{DeathPlaceCode} : null]]></variableExpression>
+	</variable>
+	<variable name="DeathPlaceCode_Hospital_OSMSummary" class="java.lang.Integer" resetType="Group" resetGroup="OSM" calculation="Count">
+		<variableExpression><![CDATA["2".equals($F{DeathPlaceCode}) ? $F{DeathPlaceCode} : null]]></variableExpression>
+	</variable>
+	<variable name="DeathPlaceCode_Road_OSMSummary" class="java.lang.Integer" resetType="Group" resetGroup="OSM" calculation="Count">
+		<variableExpression><![CDATA["3".equals($F{DeathPlaceCode}) ? $F{DeathPlaceCode} : null]]></variableExpression>
+	</variable>
+	<variable name="DeathPlaceCode_WaterSource_OSMSummary" class="java.lang.Integer" resetType="Group" resetGroup="OSM" calculation="Count">
+		<variableExpression><![CDATA["4".equals($F{DeathPlaceCode}) ? $F{DeathPlaceCode} : null]]></variableExpression>
+	</variable>
+	<variable name="DeathPlaceCode_Other_OSMSummary" class="java.lang.Integer" resetType="Group" resetGroup="OSM" calculation="Count">
+		<variableExpression><![CDATA["9".equals($F{DeathPlaceCode}) ? $F{DeathPlaceCode} : null]]></variableExpression>
+	</variable>
+	<variable name="Count_MonthlyDeathDetailInfo" class="java.lang.Integer" resetType="Group" resetGroup="SurveyHeader (Month-Year)" calculation="Count">
+		<variableExpression><![CDATA[$F{DeadPersonCitizenID}]]></variableExpression>
+		<initialValueExpression><![CDATA[0]]></initialValueExpression>
+	</variable>
+	<variable name="Count_OSMDeathDetailInfo" class="java.lang.Integer" resetType="Group" resetGroup="OSM" calculation="Count">
+		<variableExpression><![CDATA[$F{DeadPersonCitizenID}]]></variableExpression>
+		<initialValueExpression><![CDATA[0]]></initialValueExpression>
+	</variable>
+	<group name="SurveyHeader (Month-Year)" isStartNewPage="true" keepTogether="true">
+		<groupExpression><![CDATA[$F{SurveyHeaderRowGUID}]]></groupExpression>
+		<groupHeader>
+			<band/>
+		</groupHeader>
+		<groupFooter>
+			<band height="30">
+				<printWhenExpression><![CDATA[$V{Count_MonthlyDeathDetailInfo} > 0 ? true : false]]></printWhenExpression>
+				<textField>
+					<reportElement x="397" y="5" width="22" height="20" uuid="cdd5ab7e-8068-4d06-abd0-39caf3644166"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="TH Sarabun Chula" size="12" isBold="false" isItalic="true" isUnderline="true" pdfEncoding="Identity-H" isPdfEmbedded="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$V{IsDiabetes_MonthlySummary}]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement x="419" y="5" width="22" height="20" uuid="2b2ce188-2256-4b91-b68f-673a8dc74bb2"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="TH Sarabun Chula" size="12" isBold="false" isItalic="true" isUnderline="true" pdfEncoding="Identity-H" isPdfEmbedded="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$V{IsHypertension_MonthlySummary}]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement x="441" y="5" width="22" height="20" uuid="8143baa3-26be-431c-b401-8847bbeccb4a"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="TH Sarabun Chula" size="12" isBold="false" isItalic="true" isUnderline="true" pdfEncoding="Identity-H" isPdfEmbedded="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$V{IsAccident_MonthlySummary}]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement x="463" y="5" width="57" height="20" uuid="d7883b69-2511-4a1c-be49-c92b5fc1aeb9"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="TH Sarabun Chula" size="12" isBold="false" isItalic="true" isUnderline="true" pdfEncoding="Identity-H" isPdfEmbedded="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$V{IsCancer_MonthlySummary}]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement x="520" y="5" width="99" height="20" uuid="9059608d-6655-4666-8a7d-c5f274bf199a"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="TH Sarabun Chula" size="12" isItalic="true" isUnderline="true" pdfEncoding="Identity-H" isPdfEmbedded="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$V{CauseOther_MonthlySummary}]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement x="619" y="5" width="22" height="20" uuid="afba2e28-f6b6-4a43-a802-baf49a8181b7"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="TH Sarabun Chula" size="12" isItalic="true" isUnderline="true" pdfEncoding="Identity-H" isPdfEmbedded="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$V{IsCongenitalDisease_MonthlySummary}]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement x="641" y="5" width="22" height="20" uuid="7f4cbdf1-4a22-4f2d-b6d1-7969386c04fe"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="TH Sarabun Chula" size="12" isItalic="true" isUnderline="true" pdfEncoding="Identity-H" isPdfEmbedded="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$V{DeathPlaceCode_Home_MonthlySummary}]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement x="663" y="5" width="22" height="20" uuid="a1db19b6-3567-430d-af9e-59d0c9324566"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="TH Sarabun Chula" size="12" isItalic="true" isUnderline="true" pdfEncoding="Identity-H" isPdfEmbedded="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$V{DeathPlaceCode_Hospital_MonthlySummary}]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement x="684" y="5" width="22" height="20" uuid="56195393-6789-4d59-9788-420a38638fc6"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="TH Sarabun Chula" size="12" isItalic="true" isUnderline="true" pdfEncoding="Identity-H" isPdfEmbedded="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$V{DeathPlaceCode_Road_MonthlySummary}]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement x="706" y="5" width="22" height="20" uuid="6447dd9e-b3b7-479c-82ce-32f183af0853"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="TH Sarabun Chula" size="12" isItalic="true" isUnderline="true" pdfEncoding="Identity-H" isPdfEmbedded="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$V{DeathPlaceCode_WaterSource_MonthlySummary}]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement x="728" y="5" width="58" height="20" uuid="74eac961-7189-4295-a820-1c375e00df52"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="TH Sarabun Chula" size="12" isItalic="true" isUnderline="true" pdfEncoding="Identity-H" isPdfEmbedded="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$V{DeathPlaceCode_Other_MonthlySummary}]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement x="300" y="5" width="95" height="20" uuid="93b572da-20b9-4f30-81fc-94681a5e0a0b"/>
+					<textElement textAlignment="Right" verticalAlignment="Middle">
+						<font fontName="TH Sarabun Chula" size="14" isItalic="true" isUnderline="true" pdfEncoding="Identity-H" isPdfEmbedded="true"/>
+						<paragraph rightIndent="4"/>
+					</textElement>
+					<text><![CDATA[ข้อมูลสรุปรายเดือน]]></text>
+				</staticText>
+			</band>
+		</groupFooter>
+	</group>
+	<group name="OSM" isStartNewPage="true">
+		<groupExpression><![CDATA[$F{OSMID}]]></groupExpression>
+		<groupHeader>
+			<band/>
+		</groupHeader>
+		<groupFooter>
+			<band height="30">
+				<printWhenExpression><![CDATA[$V{Count_OSMDeathDetailInfo} > 0 ? true : false]]></printWhenExpression>
+				<staticText>
+					<reportElement x="304" y="5" width="93" height="20" uuid="62d6b489-5de0-4877-b0cf-169cd0759dd5"/>
+					<textElement textAlignment="Right" verticalAlignment="Middle">
+						<font fontName="TH Sarabun Chula" size="14" isItalic="true" isUnderline="true" pdfEncoding="Identity-H" isPdfEmbedded="true"/>
+						<paragraph rightIndent="4"/>
+					</textElement>
+					<text><![CDATA[ข้อมูลสรุป อสม.]]></text>
+				</staticText>
+				<textField>
+					<reportElement x="397" y="5" width="22" height="20" uuid="1ea35f5c-dd21-4677-a051-9827fcf00e3d"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="TH Sarabun Chula" size="12" isItalic="true" isUnderline="true" pdfEncoding="Identity-H" isPdfEmbedded="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$V{IsDiabetes_OSMSummary}]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement x="419" y="5" width="22" height="20" uuid="415daa68-28e2-42b9-9acc-8c4ee4c16ca8"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="TH Sarabun Chula" size="12" isItalic="true" isUnderline="true" pdfEncoding="Identity-H" isPdfEmbedded="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$V{IsHypertension_OSMSummary}]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement x="441" y="5" width="22" height="20" uuid="64f2149a-6ad4-4327-8dfc-1c43673bab9b"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="TH Sarabun Chula" size="12" isItalic="true" isUnderline="true" pdfEncoding="Identity-H" isPdfEmbedded="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$V{IsAccident_OSMSummary}]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement x="463" y="5" width="57" height="20" uuid="e9026944-2c52-46af-965f-79b50f6f3f40"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="TH Sarabun Chula" size="12" isItalic="true" isUnderline="true" pdfEncoding="Identity-H" isPdfEmbedded="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$V{IsCancer_OSMSummary}]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement x="520" y="5" width="99" height="20" uuid="3580cab5-4d2a-4e92-953c-a0aa258ce65f"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="TH Sarabun Chula" size="12" isItalic="true" isUnderline="true" pdfEncoding="Identity-H" isPdfEmbedded="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$V{CauseOther_OSMSummary}]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement x="619" y="5" width="22" height="20" uuid="458cfd03-5574-417c-8fd7-f37d2e61c542"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="TH Sarabun Chula" size="12" isItalic="true" isUnderline="true" pdfEncoding="Identity-H" isPdfEmbedded="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$V{IsCongenitalDisease_OSMSummary}]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement x="641" y="5" width="22" height="20" uuid="a1f5cb40-36ca-4372-a138-33c9dc204a9d"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="TH Sarabun Chula" size="12" isItalic="true" isUnderline="true" pdfEncoding="Identity-H" isPdfEmbedded="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$V{DeathPlaceCode_Home_OSMSummary}]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement x="663" y="5" width="22" height="20" uuid="3c0134c1-246d-4229-937a-98c25f77955f"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="TH Sarabun Chula" size="12" isItalic="true" isUnderline="true" pdfEncoding="Identity-H" isPdfEmbedded="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$V{DeathPlaceCode_Hospital_OSMSummary}]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement x="684" y="5" width="22" height="20" uuid="e0bb22bd-aac1-4acc-be39-8a61eb16d5e2"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="TH Sarabun Chula" size="12" isItalic="true" isUnderline="true" pdfEncoding="Identity-H" isPdfEmbedded="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$V{DeathPlaceCode_Road_OSMSummary}]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement x="706" y="5" width="22" height="20" uuid="2bc06935-8ae4-464c-ba91-43b81835f6e9"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="TH Sarabun Chula" size="12" isItalic="true" isUnderline="true" pdfEncoding="Identity-H" isPdfEmbedded="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$V{DeathPlaceCode_WaterSource_OSMSummary}]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement x="728" y="5" width="58" height="20" uuid="41b7bcac-d958-4c1f-a4f8-d876eb0c7296"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="TH Sarabun Chula" size="12" isItalic="true" isUnderline="true" pdfEncoding="Identity-H" isPdfEmbedded="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$V{DeathPlaceCode_Other_OSMSummary}]]></textFieldExpression>
+				</textField>
+			</band>
+		</groupFooter>
+	</group>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="1" splitType="Stretch"/>
+	</title>
+	<pageHeader>
+		<band height="300" splitType="Stretch">
+			<frame>
+				<reportElement x="29" y="173" width="148" height="127" uuid="1aa25639-e75f-4ca7-838c-fff6fe6501ea"/>
+				<box>
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+			</frame>
+			<frame>
+				<reportElement x="727" y="193" width="59" height="107" uuid="0946f01c-fdd6-460a-8508-020f05aee369"/>
+				<box>
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+			</frame>
+			<frame>
+				<reportElement x="520" y="193" width="99" height="107" uuid="d2442197-24a4-4587-b5e5-0470d080971f"/>
+				<box>
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+			</frame>
+			<frame>
+				<reportElement x="463" y="193" width="57" height="107" uuid="1efaa17c-c07e-4e4d-be36-9557332f3787"/>
+				<box>
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+			</frame>
+			<frame>
+				<reportElement x="397" y="173" width="244" height="20" uuid="c4452a3d-fbc5-46be-8d85-b3e98fde1c9b"/>
+				<box>
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+			</frame>
+			<frame>
+				<reportElement x="641" y="173" width="145" height="20" uuid="4904cf9d-3b76-48cb-a066-cf4cbd821eb6"/>
+				<box>
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+			</frame>
+			<frame>
+				<reportElement x="619" y="193" width="22" height="107" uuid="1b700557-df27-4e88-a6d6-8ef773fef7d7"/>
+				<box>
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+			</frame>
+			<frame>
+				<reportElement x="641" y="193" width="22" height="107" uuid="133f1307-aa1d-4a88-b151-7483b69c1542"/>
+				<box>
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+			</frame>
+			<frame>
+				<reportElement x="663" y="193" width="21" height="107" uuid="fc04566d-4147-4285-b850-2d3dd01b2f01"/>
+				<box>
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+			</frame>
+			<frame>
+				<reportElement x="684" y="193" width="22" height="107" uuid="2d7493fe-ccd3-4413-90f5-3c3cdefda13b"/>
+				<box>
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+			</frame>
+			<frame>
+				<reportElement x="706" y="193" width="21" height="107" uuid="51120c61-2013-4304-84f5-8c56d8ef7de4"/>
+				<box>
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+			</frame>
+			<frame>
+				<reportElement x="397" y="193" width="22" height="107" uuid="d68cf58e-5f92-439f-abc0-8f370ab9424d"/>
+				<box>
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+			</frame>
+			<frame>
+				<reportElement x="419" y="193" width="22" height="107" uuid="420103d3-7a64-4214-87ff-6239a3146f38"/>
+				<box>
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+			</frame>
+			<frame>
+				<reportElement x="441" y="193" width="22" height="107" uuid="6b540083-698a-4793-854b-d6c274fa04af"/>
+				<box>
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+			</frame>
+			<frame>
+				<reportElement x="177" y="173" width="83" height="127" uuid="35f918bf-ac58-44fa-8560-79813c49e366"/>
+				<box>
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+			</frame>
+			<frame>
+				<reportElement x="0" y="173" width="29" height="127" uuid="12136a8c-bf2b-464b-a9f1-54601033cdf3"/>
+				<box>
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+			</frame>
+			<frame>
+				<reportElement x="260" y="173" width="44" height="127" uuid="bc7bfa78-0ce2-4d40-999a-3aad40b93292"/>
+				<box>
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+			</frame>
+			<frame>
+				<reportElement x="304" y="173" width="33" height="127" uuid="5de7d4d4-51e9-4eb8-b297-42b18161f6a6"/>
+				<box>
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+			</frame>
+			<frame>
+				<reportElement x="337" y="173" width="60" height="127" uuid="6edb4423-c2ba-489f-8512-9f3dba9f8ef1"/>
+				<box>
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+			</frame>
+			<textField>
+				<reportElement x="666" y="0" width="80" height="20" uuid="8c5cd41a-c968-437b-8d89-2d2ecf71e63d"/>
+				<textElement textAlignment="Right">
+					<font fontName="TH Sarabun Chula" size="12" pdfEncoding="Identity-H"/>
+				</textElement>
+				<textFieldExpression><![CDATA["หน้า "+$V{PAGE_NUMBER}+" /"]]></textFieldExpression>
+			</textField>
+			<textField evaluationTime="Report">
+				<reportElement x="746" y="0" width="40" height="20" uuid="681ab056-ce56-40c4-a8e5-8eadc8456c89"/>
+				<textElement textAlignment="Left">
+					<font fontName="TH Sarabun Chula" size="12" pdfEncoding="Identity-H"/>
+				</textElement>
+				<textFieldExpression><![CDATA[" " + $V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="209" y="48" width="54" height="20" uuid="747c1d21-f9e7-4b33-a8f5-bc337f8b5b5b"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="TH Sarabun Chula" size="14" isBold="true" pdfEncoding="Identity-H" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[ชื่อ อสม: ]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="432" y="48" width="57" height="20" uuid="880ab951-d85a-491f-9352-fb2a88351baa"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="TH Sarabun Chula" size="14" isBold="true" pdfEncoding="Identity-H" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[เบอร์ติดต่อ: ]]></text>
+			</staticText>
+			<textField evaluationTime="Group" evaluationGroup="OSM">
+				<reportElement x="264" y="48" width="168" height="20" uuid="856adf24-47be-40a6-b22e-66776d31270c"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="TH Sarabun Chula" size="14" isBold="true" pdfEncoding="Identity-H" isPdfEmbedded="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{OSMName}]]></textFieldExpression>
+			</textField>
+			<textField evaluationTime="Group" evaluationGroup="OSM">
+				<reportElement x="489" y="48" width="146" height="20" uuid="b243b60a-b327-406a-9335-ab46e9e58973"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="TH Sarabun Chula" size="14" isBold="true" pdfEncoding="Identity-H" isPdfEmbedded="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{HospitalTelephone}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="170" y="68" width="21" height="20" uuid="0e7a10e0-ead6-4121-9d1e-985d454ce9e3"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="TH Sarabun Chula" size="14" isBold="true" pdfEncoding="Identity-H" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[หมู่: ]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="233" y="68" width="33" height="20" uuid="f50b4836-c972-466c-889d-4c8286901ad0"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="TH Sarabun Chula" size="14" isBold="true" pdfEncoding="Identity-H" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[ตำบล: ]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="389" y="68" width="12" height="20" uuid="eea82c6c-f619-4ef0-8068-0d5a496cb616"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="TH Sarabun Chula" size="14" isBold="true" pdfEncoding="Identity-H" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[อ.]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="524" y="68" width="12" height="20" uuid="693f5192-20b6-48e1-abc4-673b276b07a5"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="TH Sarabun Chula" size="14" isBold="true" pdfEncoding="Identity-H" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[จ.]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="276" y="88" width="55" height="20" uuid="47b814d9-d030-43ce-8757-03f69b85bade"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="TH Sarabun Chula" size="14" isBold="true" pdfEncoding="Identity-H" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[ประจำเดือน]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="412" y="88" width="22" height="20" uuid="4ceac1ff-11e8-43e8-9510-ffe3eef00332"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="TH Sarabun Chula" size="14" pdfEncoding="Identity-H" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[พ.ศ.]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="191" y="68" width="42" height="20" uuid="03590a54-4ff4-43d6-85a5-520ac6736158"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="TH Sarabun Chula" size="14" isBold="true" pdfEncoding="Identity-H" isPdfEmbedded="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{SurveyMoo}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="266" y="68" width="123" height="20" uuid="6eeb3599-7c15-4d54-bd9c-4f2563eb1978"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="TH Sarabun Chula" size="14" isBold="true" pdfEncoding="Identity-H" isPdfEmbedded="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{SurveyTumbol}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="401" y="68" width="123" height="20" uuid="d371b49f-b717-4ce4-996c-da745f9429da"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="TH Sarabun Chula" size="14" isBold="true" pdfEncoding="Identity-H" isPdfEmbedded="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{SurveyAmphur}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="536" y="68" width="136" height="20" uuid="1702c09a-a3c7-471a-af4e-eb916675300a"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="TH Sarabun Chula" size="14" isBold="true" pdfEncoding="Identity-H" isPdfEmbedded="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{SurveyProvince}]]></textFieldExpression>
+			</textField>
+			<textField evaluationTime="Group" evaluationGroup="SurveyHeader (Month-Year)">
+				<reportElement x="331" y="88" width="81" height="20" uuid="b93425c6-936c-4919-83b0-219dc33fc7e9"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="TH Sarabun Chula" size="14" isBold="true" pdfEncoding="Identity-H" isPdfEmbedded="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{ThaiSurveyMonth}]]></textFieldExpression>
+			</textField>
+			<textField evaluationTime="Group" evaluationGroup="SurveyHeader (Month-Year)">
+				<reportElement x="434" y="88" width="100" height="20" uuid="0b306e90-caad-4797-9950-415cae7799b1"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="TH Sarabun Chula" size="14" isBold="true" pdfEncoding="Identity-H" isPdfEmbedded="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[Integer.valueOf($P{SurveyYear}) + 543]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="0" y="225" width="29" height="20" uuid="88ae6aee-d147-4140-9bc9-965043a1f747"/>
+				<textElement textAlignment="Center">
+					<font fontName="TH Sarabun Chula" size="14" pdfEncoding="Identity-H" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[ลำดับ]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="29" y="225" width="149" height="20" uuid="f583c549-6036-423b-bcf1-23700c748a9e"/>
+				<textElement textAlignment="Center" markup="none">
+					<font fontName="TH Sarabun Chula" size="14" isBold="false" pdfEncoding="Identity-H" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[ชื่อ - สกุล ผู้เสียชีวิต]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="177" y="225" width="83" height="20" uuid="e473caeb-7278-4626-896c-7295874b10c1"/>
+				<textElement textAlignment="Center">
+					<font fontName="TH Sarabun Chula" size="14" pdfEncoding="Identity-H" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[หมายเลขประชาชน]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="397" y="173" width="244" height="20" uuid="cd0981a6-9388-45a7-b2f0-c3038cadae8d"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="TH Sarabun Chula" size="14" pdfEncoding="Identity-H" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[โรค หรือ สาเหตุที่ทำให้เสียชีวิต]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="260" y="225" width="44" height="20" uuid="875f1272-433b-47e4-82e9-adbcab637630"/>
+				<textElement textAlignment="Center">
+					<font fontName="TH Sarabun Chula" size="14" pdfEncoding="Identity-H" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[ที่อยู่]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="304" y="225" width="33" height="20" uuid="992db093-c329-4ad2-8d77-afc5b4ba5864"/>
+				<textElement textAlignment="Center">
+					<font fontName="TH Sarabun Chula" size="14" pdfEncoding="Identity-H" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[อายุ]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="337" y="225" width="60" height="20" uuid="abe37ca5-32d3-4f32-abdb-fbd5ef2b0e42"/>
+				<textElement textAlignment="Center">
+					<font fontName="TH Sarabun Chula" size="14" pdfEncoding="Identity-H" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[วันที่เสียชีวิต]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="397" y="193" width="22" height="107" uuid="5aa808c7-5bce-4596-a4b6-61518a665572"/>
+				<textElement verticalAlignment="Middle" rotation="Left">
+					<font fontName="TH Sarabun Chula" size="14" pdfEncoding="Identity-H" isPdfEmbedded="true"/>
+					<paragraph leftIndent="5"/>
+				</textElement>
+				<text><![CDATA[เบาหวาน]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="419" y="193" width="22" height="107" uuid="aa0c1812-ed9a-45f2-a35c-e734174ad06a"/>
+				<textElement verticalAlignment="Middle" rotation="Left">
+					<font fontName="TH Sarabun Chula" size="14" pdfEncoding="Identity-H" isPdfEmbedded="true"/>
+					<paragraph leftIndent="5"/>
+				</textElement>
+				<text><![CDATA[ความดันโลหิตสูง]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="441" y="193" width="22" height="107" uuid="db3d6350-d6ef-4e36-93b5-6bce94f45540"/>
+				<textElement verticalAlignment="Middle" rotation="Left">
+					<font fontName="TH Sarabun Chula" size="14" pdfEncoding="Identity-H" isPdfEmbedded="true"/>
+					<paragraph leftIndent="5"/>
+				</textElement>
+				<text><![CDATA[อุบัติเหตุการจราจร]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="463" y="193" width="57" height="107" uuid="af682385-dab7-461d-abe6-e4e6c27c5082"/>
+				<textElement verticalAlignment="Middle" rotation="Left">
+					<font fontName="TH Sarabun Chula" size="14" pdfEncoding="Identity-H" isPdfEmbedded="true"/>
+					<paragraph leftIndent="5"/>
+				</textElement>
+				<text><![CDATA[มะเร็ง (ตำแหน่ง)]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="520" y="193" width="100" height="107" uuid="8574358f-0834-4f3f-85b4-f47f685c8c76"/>
+				<textElement verticalAlignment="Middle" rotation="Left">
+					<font fontName="TH Sarabun Chula" size="14" pdfEncoding="Identity-H" isPdfEmbedded="true"/>
+					<paragraph leftIndent="5"/>
+				</textElement>
+				<text><![CDATA[สาเหตุอื่นๆ]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="619" y="193" width="22" height="107" uuid="5aeeeacc-3524-4f63-9cad-63dfe06b9679"/>
+				<textElement verticalAlignment="Middle" rotation="Left">
+					<font fontName="TH Sarabun Chula" size="14" pdfEncoding="Identity-H" isPdfEmbedded="true"/>
+					<paragraph leftIndent="5"/>
+				</textElement>
+				<text><![CDATA[ไม่มีโรคประจำตัว]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="641" y="173" width="145" height="20" uuid="48e68911-366f-44e6-b6ae-9fc5ca643f1e"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="TH Sarabun Chula" size="14" pdfEncoding="Identity-H" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[สถานที่เสียชีวิต]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="641" y="193" width="22" height="107" uuid="29de7b4d-d60c-4295-9131-b77815f8e993"/>
+				<textElement verticalAlignment="Middle" rotation="Left">
+					<font fontName="TH Sarabun Chula" size="14" pdfEncoding="Identity-H" isPdfEmbedded="true"/>
+					<paragraph leftIndent="5"/>
+				</textElement>
+				<text><![CDATA[บ้าน]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="663" y="193" width="22" height="107" uuid="e3333edf-7f87-4baf-94ae-f88b10add177"/>
+				<textElement verticalAlignment="Middle" rotation="Left">
+					<font fontName="TH Sarabun Chula" size="14" pdfEncoding="Identity-H" isPdfEmbedded="true"/>
+					<paragraph leftIndent="5"/>
+				</textElement>
+				<text><![CDATA[ร.พ.]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="684" y="193" width="22" height="107" uuid="daae7ded-dbe7-4d9f-8d1e-57cdee21a0a1"/>
+				<textElement verticalAlignment="Middle" rotation="Left">
+					<font fontName="TH Sarabun Chula" size="14" pdfEncoding="Identity-H" isPdfEmbedded="true"/>
+					<paragraph leftIndent="5"/>
+				</textElement>
+				<text><![CDATA[ถนน]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="706" y="193" width="22" height="107" uuid="6c764eda-006e-4277-a065-6cf8c21e78e3"/>
+				<textElement verticalAlignment="Middle" rotation="Left">
+					<font fontName="TH Sarabun Chula" size="14" pdfEncoding="Identity-H" isPdfEmbedded="true"/>
+					<paragraph leftIndent="5"/>
+				</textElement>
+				<text><![CDATA[แหล่งน้ำ]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="727" y="193" width="59" height="107" uuid="eeb77070-c542-497d-b1c4-d060c9f5f1d8"/>
+				<textElement verticalAlignment="Middle" rotation="Left">
+					<font fontName="TH Sarabun Chula" size="14" pdfEncoding="Identity-H" isPdfEmbedded="true"/>
+					<paragraph leftIndent="5"/>
+				</textElement>
+				<text><![CDATA[อื่นๆ]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="284" y="0" width="264" height="29" isPrintWhenDetailOverflows="true" forecolor="#000000" uuid="fd9e047a-1f5f-48d9-989a-c2249c9f989f"/>
+				<box>
+					<topPen lineWidth="0.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="TH Sarabun Chula" size="18" isBold="true" pdfEncoding="Identity-H" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[แบบรายงานผู้เสียชีวิต ในเขตรับผิดชอบ]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="197" y="123" width="250" height="20" uuid="cd33943c-5916-484d-9e4d-0c8860bc76f9"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="TH Sarabun Chula" size="14" pdfEncoding="Identity-H" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[ในเขตรับผิดชอบไม่มีผู้เสียชีวิตในเดือนนี้]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="197" y="143" width="378" height="20" uuid="5d7e853b-dc2c-421e-8e1b-3e99b6ceb083"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="TH Sarabun Chula" size="14" pdfEncoding="Identity-H" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[ในเขตรับผิดชอบมีผู้เสียชีวิตในเดือนนี้ ตามรายละเอียดด้านล่างนี้]]></text>
+			</staticText>
+			<textField evaluationTime="Group" evaluationGroup="SurveyHeader (Month-Year)">
+				<reportElement x="157" y="123" width="31" height="20" uuid="955da2e7-0ada-418a-9611-11d2e3972183"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font fontName="TH Sarabun Chula" size="14" pdfEncoding="Identity-H"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{Count_MonthlyDeathDetailInfo} == 0 ? "( / )" : "(   )"]]></textFieldExpression>
+			</textField>
+			<textField evaluationTime="Group" evaluationGroup="SurveyHeader (Month-Year)">
+				<reportElement x="157" y="143" width="31" height="20" uuid="fbce7263-81c9-486e-9520-37635557c753"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font fontName="TH Sarabun Chula" size="14" pdfEncoding="Identity-H"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{Count_MonthlyDeathDetailInfo} > 0 ? "( / )" : "(   )"]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageHeader>
+	<columnHeader>
+		<band splitType="Stretch"/>
+	</columnHeader>
+	<detail>
+		<band height="20" splitType="Stretch">
+			<frame>
+				<reportElement x="684" y="0" width="22" height="20" uuid="6dbd2ab9-8c89-4a2c-b94c-c25969849cda"/>
+				<box>
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="0.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+			</frame>
+			<frame>
+				<reportElement x="641" y="0" width="22" height="20" uuid="083c81d3-11f9-47e5-9f34-ad16edcbfa3f"/>
+				<box>
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="0.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+			</frame>
+			<frame>
+				<reportElement x="706" y="0" width="21" height="20" uuid="cc7a6c55-007b-4848-92c6-4e59be4b3288"/>
+				<box>
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="0.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+			</frame>
+			<frame>
+				<reportElement x="304" y="0" width="33" height="20" uuid="c24d054b-23cc-41a5-b54a-ef4ba9c20bcb"/>
+				<box>
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="0.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+			</frame>
+			<frame>
+				<reportElement x="337" y="0" width="60" height="20" uuid="77283b76-2c32-4a41-bf21-cc9839191149"/>
+				<box>
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="0.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+			</frame>
+			<frame>
+				<reportElement x="727" y="0" width="59" height="20" uuid="48bfa02f-1fc6-46fc-a464-93808bf796ae"/>
+				<box>
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="0.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+			</frame>
+			<frame>
+				<reportElement x="0" y="0" width="29" height="20" uuid="8538768d-b4cb-43b6-8f29-b37c584f1020"/>
+				<box>
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="0.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+			</frame>
+			<frame>
+				<reportElement x="520" y="0" width="99" height="20" uuid="932c22e2-5798-4dcd-a56b-b26b50c6749e"/>
+				<box>
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="0.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+			</frame>
+			<frame>
+				<reportElement x="29" y="0" width="148" height="20" uuid="adfd4d43-0b09-4cb7-831f-d8619145410d"/>
+				<box>
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="0.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+			</frame>
+			<frame>
+				<reportElement x="177" y="0" width="83" height="20" uuid="b9195074-d42c-4e81-bc04-1f083ea8172b"/>
+				<box>
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="0.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+			</frame>
+			<frame>
+				<reportElement x="260" y="0" width="44" height="20" uuid="b91e85cf-bb67-4c8c-bffa-aeb21474fac6"/>
+				<box>
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="0.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+			</frame>
+			<frame>
+				<reportElement x="397" y="0" width="22" height="20" uuid="7d71c931-474c-488a-a131-f9d582dba196"/>
+				<box>
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="0.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+			</frame>
+			<frame>
+				<reportElement x="419" y="0" width="22" height="20" uuid="7c135680-9da8-41da-9897-dd7228bbc928"/>
+				<box>
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="0.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+			</frame>
+			<frame>
+				<reportElement x="441" y="0" width="22" height="20" uuid="df6a15ed-e8dc-47ee-a285-7bd70f06b45a"/>
+				<box>
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="0.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+			</frame>
+			<frame>
+				<reportElement x="463" y="0" width="57" height="20" uuid="c12bbb0c-b001-44c9-8a48-478c707decda"/>
+				<box>
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="0.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+			</frame>
+			<frame>
+				<reportElement x="619" y="0" width="22" height="20" uuid="f8777816-5f7f-4627-8efd-6e0abb78adf5"/>
+				<box>
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="0.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+			</frame>
+			<frame>
+				<reportElement x="663" y="0" width="21" height="20" uuid="5cc736e7-e8c0-4645-b49d-f8a0421fb051"/>
+				<box>
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="0.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+			</frame>
+			<textField pattern="dd/MM/yyyy">
+				<reportElement x="337" y="0" width="58" height="20" uuid="0f3e29d0-44b5-4218-80c8-618b6abcc6cb"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="TH Sarabun Chula" size="12" pdfEncoding="Identity-H" isPdfEmbedded="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{DeadPersonDeathDate}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="0" y="0" width="29" height="20" uuid="577f0d53-f675-400b-80cd-af5345134bc5"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="TH Sarabun Chula" size="12" pdfEncoding="Identity-H" isPdfEmbedded="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{Count_MonthlyDeathDetailInfo}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="29" y="0" width="148" height="20" uuid="5ce1a1b3-6f55-474a-854d-33fa796c3791"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="TH Sarabun Chula" size="12" pdfEncoding="Identity-H" isPdfEmbedded="true"/>
+					<paragraph leftIndent="4"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{DeadPersonName}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="177" y="0" width="83" height="20" uuid="0a0b9a34-6b42-4516-a636-a2258a233138"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="TH Sarabun Chula" size="12" pdfEncoding="Identity-H" isPdfEmbedded="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{DeadPersonCitizenID}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="260" y="0" width="44" height="20" uuid="b5d8d3ac-6c44-4de2-8886-579fb5b70346"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="TH Sarabun Chula" size="12" pdfEncoding="Identity-H" isPdfEmbedded="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{DeadPersonHomeNO}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="304" y="0" width="33" height="20" uuid="ec70e598-6f73-4668-9646-ebccdda39766"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="TH Sarabun Chula" size="12" pdfEncoding="Identity-H" isPdfEmbedded="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{DeadPersonAge}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="397" y="0" width="22" height="20" uuid="cabb52a1-e10c-4724-9762-ac947f089c26"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="TH Sarabun Chula" size="12" isBold="true" pdfEncoding="Identity-H" isPdfEmbedded="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{IsDiabetes} == true ? "/" : ""]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="419" y="0" width="22" height="20" uuid="d447ae70-1edc-4e0c-9a9f-88c07a7d848e"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="TH Sarabun Chula" size="12" isBold="true" pdfEncoding="Identity-H" isPdfEmbedded="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{IsHypertension} == true ? "/" : ""]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="441" y="0" width="22" height="20" uuid="c0c05b24-fbc7-4c6a-a6d4-c59312811dc5"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="TH Sarabun Chula" size="12" isBold="true" pdfEncoding="Identity-H" isPdfEmbedded="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{IsAccident} == true ? "/" : ""]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="463" y="0" width="57" height="20" uuid="67ab7468-d4e8-43a3-b47b-8bcef9aa65a6"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="TH Sarabun Chula" size="12" pdfEncoding="Identity-H" isPdfEmbedded="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{CauseCancer}.length() > 0 ? $F{CauseCancer} : ""]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="520" y="0" width="100" height="20" uuid="15d5474e-27af-4a32-8177-72382adf1c37"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="TH Sarabun Chula" size="12" pdfEncoding="Identity-H" isPdfEmbedded="true"/>
+					<paragraph leftIndent="4"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{CauseOther}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="619" y="0" width="22" height="20" uuid="e1e6c66a-4043-4e38-be27-578fd903a679"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="TH Sarabun Chula" size="12" isBold="true" pdfEncoding="Identity-H" isPdfEmbedded="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{IsCongenitalDisease} ? "" : "/"]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="641" y="0" width="22" height="20" uuid="77a476c1-e9a2-4dc5-8ed8-80d02b4c1837"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="TH Sarabun Chula" size="12" isBold="true" pdfEncoding="Identity-H" isPdfEmbedded="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA["1".equals($F{DeathPlaceCode}) ? "/" : ""]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="663" y="0" width="22" height="20" uuid="8f015a1c-61f8-4d1b-a2d0-e678688513e2"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="TH Sarabun Chula" size="12" isBold="true" pdfEncoding="Identity-H" isPdfEmbedded="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA["2".equals($F{DeathPlaceCode}) ? "/" : ""]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="684" y="0" width="22" height="20" uuid="276dbb81-a86d-49b0-8c14-73ddf8a49384"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="TH Sarabun Chula" size="12" isBold="true" pdfEncoding="Identity-H" isPdfEmbedded="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA["3".equals($F{DeathPlaceCode}) ? "/" : ""]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="706" y="0" width="21" height="20" uuid="6274a144-a356-4b29-be43-86dcb1d4e9f3"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="TH Sarabun Chula" size="12" isBold="true" pdfEncoding="Identity-H"/>
+				</textElement>
+				<textFieldExpression><![CDATA["4".equals($F{DeathPlaceCode}) ? "/" : ""]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="727" y="0" width="19" height="20" uuid="e78bb03b-f06e-4d8c-8772-fd830cff5f9a"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="TH Sarabun Chula" size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Hello"]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="746" y="0" width="39" height="20" uuid="f262fd99-1674-4b85-8feb-38beb1aa9c55"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="TH Sarabun Chula" size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Hello"]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<columnFooter>
+		<band splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band height="30" splitType="Stretch"/>
+	</pageFooter>
+	<summary>
+		<band height="120" splitType="Stretch">
+			<staticText>
+				<reportElement x="0" y="100" width="42" height="20" uuid="d8102a48-a02f-45a5-b6be-eab01497f806"/>
+				<textElement>
+					<font fontName="TH Sarabun Chula" size="14" isBold="true" pdfEncoding="Identity-H" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[หมายเหตุ]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="46" y="100" width="744" height="20" uuid="3dbf3375-e857-4985-909f-969e8d19e828"/>
+				<textElement>
+					<font fontName="TH Sarabun Chula" size="14" pdfEncoding="Identity-H" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[เอกสารชุดนี้ จะเก็บไว้ที่รพ.สต. เพื่อใช้อ้างอิงหากมีการตรวจสอบจากส่วนกลาง ประกอบเรื่องการลงสาเหตุการตาย ในกรณีที่ไม่สามารถติดตามสำเนามรณบัตรมาเก็บที่ รพ.สต.ได้]]></text>
+			</staticText>
+		</band>
+	</summary>
+</jasperReport>

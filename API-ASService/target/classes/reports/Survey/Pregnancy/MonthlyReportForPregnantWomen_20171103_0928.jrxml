@@ -1,0 +1,630 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="MonthlyReportForPregnantWomen" pageWidth="842" pageHeight="595" orientation="Landscape" whenNoDataType="AllSectionsNoDetail" columnWidth="802" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="77ffd335-5fbe-4ef6-a291-fe8ce84e5d1d">
+	<property name="ireport.zoom" value="1.2418426461183232"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="HospitalName" class="java.lang.String"/>
+	<parameter name="HospitalMooNo" class="java.lang.String"/>
+	<parameter name="ThaiSurveyMonth" class="java.lang.String"/>
+	<parameter name="SurveyYear" class="java.lang.String">
+		<defaultValueExpression><![CDATA[$P{SurveyYear}]]></defaultValueExpression>
+	</parameter>
+	<queryString>
+		<![CDATA[SET LANGUAGE Thai;
+
+SELECT
+	tbSurveyHeader.RowGUID AS SurveyHeaderRowGUID
+	, tbSurveyHeader.Name AS SurveyHeaderName
+	, tbHospital.Name AS HospitalName
+	, tbHospital.MooNo AS HospitalMooNo
+	, DATENAME(MONTH, tbSurveyHeader.StartDate) AS ThaiSurveyMonth
+	, DATENAME(YEAR, DATEADD("yyyy", 543,tbSurveyHeader.StartDate)) AS SurveyYear
+	, tbPregnantPerson.CitizenID AS PregnantPersonCitizenID
+	, tbPregnantPerson.FirstName + ' ' + tbPregnantPerson.LastName AS PregnantPersonName
+	, DATEDIFF(hour, tbPregnantPerson.BirthDate, GETDATE())/8766 AS PregnantPersonAge
+	, tbPregnantPersonAddress.HomeNO + ' ม.' + tbPregnantPersonAddress.MooNO AS PregnantPersonAddress
+	, tbPregnantDetailInfo.WombNo AS PregnantPersonWombNo
+	, CAST(DAY(tbPregnantDetailInfo.BornDueDate) AS VARCHAR)
+		+ '-' + CASE MONTH(tbPregnantDetailInfo.BornDueDate)
+					WHEN 1 THEN 'ม.ค.'
+					WHEN 2 THEN 'ก.พ.'
+					WHEN 3 THEN 'มี.ค.'
+					WHEN 4 THEN 'เม.ย'
+					WHEN 5 THEN 'พ.ค'
+					WHEN 6 THEN 'มิ.ย'
+					WHEN 7 THEN 'ก.ค.'
+					WHEN 8 THEN 'ส.ค.'
+					WHEN 9 THEN 'ก.ย.'
+					WHEN 10 THEN 'ต.ค.'
+					WHEN 11 THEN 'พ.ย.'
+					WHEN 12 THEN 'ธ.ค.'
+				END
+		+ '-' + CAST(YEAR(tbPregnantDetailInfo.BornDueDate)+543 AS VARCHAR)
+		AS PregnantPersonBornDueDate
+	, tbPregnantPersonBloodType.Name AS PregnantPersonBloodTypeName
+	, tbBornType.Name AS BornTypeName
+	, tbPregnantSurveyType.Name AS PregnantSurveyTypeName
+	, CAST(DAY(tbChild.BirthDate) AS VARCHAR)
+		+ '-' + CASE MONTH(tbPregnantDetailInfo.BornDueDate)
+					WHEN 1 THEN 'ม.ค.'
+					WHEN 2 THEN 'ก.พ.'
+					WHEN 3 THEN 'มี.ค.'
+					WHEN 4 THEN 'เม.ย'
+					WHEN 5 THEN 'พ.ค'
+					WHEN 6 THEN 'มิ.ย'
+					WHEN 7 THEN 'ก.ค.'
+					WHEN 8 THEN 'ส.ค.'
+					WHEN 9 THEN 'ก.ย.'
+					WHEN 10 THEN 'ต.ค.'
+					WHEN 11 THEN 'พ.ย.'
+					WHEN 12 THEN 'ธ.ค.'
+				END
+		+ '-' + CAST(YEAR(tbPregnantDetailInfo.BornDueDate)+543 AS VARCHAR)
+		AS ChildBirthDate
+	, tbBornHospital.Name AS BornHospitalName
+	, tbChild.Weight AS ChildWeight
+	, CASE
+		WHEN LEN(tbChildPerson.FirstName) > 0 THEN tbChildPrefix.ShortName + tbChildPerson.FirstName + ' ' + tbChildPerson.LastName
+		ELSE tbChild.BornCitizenID
+		END AS ChildName
+
+FROM [Survey].[SurveyHeader] AS tbSurveyHeader
+LEFT JOIN [dbo].[Hospital] AS tbHospital ON tbSurveyHeader.HospitalCode = tbHospital.Code5
+LEFT JOIN [Survey].[PregnantDetail] AS tbPregnantDetail ON tbSurveyHeader.RowGUID = tbPregnantDetail.DocumentID
+	LEFT JOIN [dbo].[Person] AS tbOSMPerson ON tbPregnantDetail.OSMID = tbOSMPerson.CitizenID
+	LEFT JOIN [Survey].[PregnantDetailInfo] AS tbPregnantDetailInfo ON tbPregnantDetail.RowGUID = tbPregnantDetailInfo.ReferenceID
+		LEFT JOIN [dbo].[Person] AS tbPregnantPerson ON tbPregnantDetailInfo.CitizenID = tbPregnantPerson.CitizenID
+			LEFT JOIN [dbo].[BloodType] AS tbPregnantPersonBloodType ON tbPregnantPerson.BloodTypeID = tbPregnantPersonBloodType.ID
+		LEFT JOIN [dbo].[Address] AS tbPregnantPersonAddress ON tbPregnantDetailInfo.CitizenID = tbPregnantPersonAddress.CitizenID
+		LEFT JOIN [dbo].[PregnantSurveyType] AS tbPregnantSurveyType ON tbPregnantDetailInfo.PSurveyTypeCode = tbPregnantSurveyType.Code
+		LEFT JOIN [Survey].[Child] AS tbChild ON tbPregnantDetailInfo.RowGUID = tbChild.ReferenceID
+			LEFT JOIN [dbo].[Person] AS tbChildPerson ON tbChild.BornCitizenID = tbChildPerson.CitizenID
+				LEFT JOIN [dbo].[Prefix] AS tbChildPrefix ON tbChildPerson.PrefixCode = tbChildPrefix.Code
+			LEFT JOIN [dbo].[BornType] AS tbBornType ON tbChild.BornTypeID = tbBornType.ID
+			LEFT JOIN [dbo].[BornLocation] AS tbBornLocation ON tbChild.BornLocationID = tbBornLocation.ID
+				LEFT JOIN [dbo].[Hospital] AS tbBornHospital ON tbBornLocation.HospitalCode = tbBornHospital.Code5
+WHERE tbSurveyHeader.HeaderTypeCode = 'PREGNANT'
+	]]>
+	</queryString>
+	<field name="SurveyHeaderRowGUID" class="java.lang.String"/>
+	<field name="SurveyHeaderName" class="java.lang.String"/>
+	<field name="HospitalName" class="java.lang.String"/>
+	<field name="HospitalMooNo" class="java.lang.String"/>
+	<field name="ThaiSurveyMonth" class="java.lang.String"/>
+	<field name="SurveyYear" class="java.lang.String"/>
+	<field name="PregnantPersonCitizenID" class="java.lang.String"/>
+	<field name="PregnantPersonName" class="java.lang.String"/>
+	<field name="PregnantPersonAge" class="java.lang.Integer"/>
+	<field name="PregnantPersonAddress" class="java.lang.String"/>
+	<field name="PregnantPersonWombNo" class="java.lang.Short"/>
+	<field name="PregnantPersonBornDueDate" class="java.lang.String"/>
+	<field name="PregnantPersonBloodTypeName" class="java.lang.String"/>
+	<field name="BornTypeName" class="java.lang.String"/>
+	<field name="PregnantSurveyTypeName" class="java.lang.String"/>
+	<field name="ChildBirthDate" class="java.lang.String"/>
+	<field name="BornHospitalName" class="java.lang.String"/>
+	<field name="ChildWeight" class="java.lang.Short"/>
+	<field name="ChildName" class="java.lang.String"/>
+	<variable name="Count_AllDetailInfo" class="java.lang.Integer" calculation="Count">
+		<variableExpression><![CDATA[$F{PregnantPersonCitizenID}]]></variableExpression>
+		<initialValueExpression><![CDATA[0]]></initialValueExpression>
+	</variable>
+	<variable name="Count_DetailInfoInSurveyHeader" class="java.lang.Integer" resetType="Group" resetGroup="Survey Header" calculation="Count">
+		<variableExpression><![CDATA[$F{PregnantPersonCitizenID}]]></variableExpression>
+		<initialValueExpression><![CDATA[0]]></initialValueExpression>
+	</variable>
+	<group name="Survey Header" isStartNewPage="true">
+		<groupExpression><![CDATA[$F{SurveyHeaderRowGUID}]]></groupExpression>
+		<groupHeader>
+			<band/>
+		</groupHeader>
+		<groupFooter>
+			<band height="50">
+				<staticText>
+					<reportElement x="-1" y="16" width="802" height="34" uuid="f5ed9f3d-ace9-4267-8ddd-42e2e47b190f">
+						<printWhenExpression><![CDATA[$V{Count_DetailInfoInSurveyHeader} == 0 ? true : false]]></printWhenExpression>
+					</reportElement>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="TH Sarabun Chula" size="16" isBold="true" pdfEncoding="Identity-H" isPdfEmbedded="true"/>
+					</textElement>
+					<text><![CDATA[ไม่พบข้อมูลการสำรวจ]]></text>
+				</staticText>
+				<textField>
+					<reportElement x="737" y="0" width="65" height="25" uuid="e4b5a15e-a4f2-47f5-8227-e61c7487a26c">
+						<printWhenExpression><![CDATA[$V{Count_DetailInfoInSurveyHeader} > 0 ? true : false]]></printWhenExpression>
+					</reportElement>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="TH Sarabun Chula" size="16" isItalic="true" isUnderline="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$V{Count_DetailInfoInSurveyHeader}]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement x="682" y="0" width="55" height="25" uuid="07b6b39d-36f5-4d4a-ac4b-266ea6244ad0">
+						<printWhenExpression><![CDATA[$V{Count_DetailInfoInSurveyHeader} > 0 ? true : false]]></printWhenExpression>
+					</reportElement>
+					<textElement textAlignment="Right" verticalAlignment="Middle">
+						<font fontName="TH Sarabun Chula" size="16" isItalic="true" isUnderline="true" pdfEncoding="Identity-H" isPdfEmbedded="true"/>
+						<paragraph rightIndent="4"/>
+					</textElement>
+					<text><![CDATA[รวม]]></text>
+				</staticText>
+			</band>
+		</groupFooter>
+	</group>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band splitType="Stretch"/>
+	</title>
+	<pageHeader>
+		<band height="68" splitType="Stretch">
+			<staticText>
+				<reportElement x="183" y="38" width="192" height="25" uuid="3d0d60bd-645f-4585-b7d9-9fa154c85f58"/>
+				<textElement verticalAlignment="Top">
+					<font fontName="TH Sarabun Chula" size="16" pdfEncoding="Identity-H" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[แบบรายงานข้อมูลหญิงตั้งครรภ์/หลังคลอด]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="375" y="38" width="24" height="25" uuid="3f4c92a1-fe27-497f-b258-950afb2b4b8e"/>
+				<textElement verticalAlignment="Top">
+					<font fontName="TH Sarabun Chula" size="16" pdfEncoding="Identity-H" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[หมู่ที่]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="399" y="38" width="39" height="25" uuid="fea72e27-d0eb-4df5-993e-20f3f0c2a704"/>
+				<textElement>
+					<font fontName="TH Sarabun Chula" size="16" pdfEncoding="Identity-H" isPdfEmbedded="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{HospitalMooNo}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="438" y="38" width="54" height="25" uuid="95c994e9-7979-470d-93dd-0dcbe99b2d04"/>
+				<textElement verticalAlignment="Top">
+					<font fontName="TH Sarabun Chula" size="16" pdfEncoding="Identity-H" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[ประจำเดือน]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="492" y="38" width="59" height="25" uuid="af525179-b534-404d-8c04-5ccc2d87743a"/>
+				<textElement>
+					<font fontName="TH Sarabun Chula" size="16" pdfEncoding="Identity-H" isPdfEmbedded="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{ThaiSurveyMonth}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="551" y="38" width="57" height="25" uuid="b49f19a4-0338-48ff-ab29-993c88217e83"/>
+				<textElement>
+					<font fontName="TH Sarabun Chula" size="16" pdfEncoding="Identity-H" isPdfEmbedded="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{SurveyYear}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="181" y="8" width="440" height="25" uuid="57089dfb-24d2-499b-98ba-93f2f4ff8800"/>
+				<textElement textAlignment="Center" verticalAlignment="Top">
+					<font fontName="TH Sarabun Chula" size="16" pdfEncoding="Identity-H" isPdfEmbedded="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{HospitalName}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="682" y="0" width="80" height="20" uuid="b7c7498a-ff13-42c2-ad94-7e47bfac7f52"/>
+				<textElement textAlignment="Right">
+					<font fontName="TH Sarabun Chula" size="12" pdfEncoding="Identity-H"/>
+				</textElement>
+				<textFieldExpression><![CDATA["หน้า "+$V{PAGE_NUMBER}+" /"]]></textFieldExpression>
+			</textField>
+			<textField evaluationTime="Report">
+				<reportElement x="762" y="0" width="40" height="20" uuid="51fc1b87-00a1-4466-98b0-f992bba5e574"/>
+				<textElement textAlignment="Left">
+					<font fontName="TH Sarabun Chula" size="12" pdfEncoding="Identity-H"/>
+				</textElement>
+				<textFieldExpression><![CDATA[" " + $V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageHeader>
+	<columnHeader>
+		<band height="25" splitType="Stretch">
+			<frame>
+				<reportElement x="588" y="0" width="65" height="25" uuid="e5af10e7-1bf5-42a0-a16c-3cfc73688c85"/>
+				<box>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+			</frame>
+			<frame>
+				<reportElement x="653" y="0" width="46" height="25" uuid="699a91c4-d55e-4b4d-bfc7-5017af91255b"/>
+				<box>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+			</frame>
+			<frame>
+				<reportElement x="699" y="0" width="103" height="25" uuid="9d5bccdc-8dec-461d-95be-97fbc6b9971c"/>
+				<box>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+			</frame>
+			<frame>
+				<reportElement x="311" y="0" width="36" height="25" uuid="c53cc8a1-ff87-4202-b258-68e6f931d7d0"/>
+				<box>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+			</frame>
+			<frame>
+				<reportElement x="468" y="0" width="55" height="25" uuid="7810be0a-81bd-4924-945c-7fd6cc0f9331"/>
+				<box>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+			</frame>
+			<frame>
+				<reportElement x="347" y="0" width="78" height="25" uuid="7ddce4fd-8330-421f-9232-138acc24e944"/>
+				<box>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+			</frame>
+			<frame>
+				<reportElement x="0" y="0" width="33" height="25" uuid="5f4150d8-cbcb-4799-ac79-94e050b512ae"/>
+				<box>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+			</frame>
+			<frame>
+				<reportElement x="33" y="0" width="183" height="25" uuid="1c84ff8d-a8b9-434b-b88a-052649b54729"/>
+				<box>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+			</frame>
+			<frame>
+				<reportElement x="216" y="0" width="41" height="25" uuid="31b4d5e1-da3e-4ead-8399-e7415686bd03"/>
+				<box>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+			</frame>
+			<frame>
+				<reportElement x="257" y="0" width="54" height="25" uuid="e5dd9953-d5ab-4ec2-92e1-b3c61141e59b"/>
+				<box>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+			</frame>
+			<frame>
+				<reportElement x="425" y="0" width="43" height="25" uuid="e3b5543a-ebc7-4b7c-b614-73f1eb6c5da7"/>
+				<box>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+			</frame>
+			<frame>
+				<reportElement x="523" y="0" width="65" height="25" uuid="03748636-84bd-4abe-8d20-8b2494b96ce2"/>
+				<box>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+			</frame>
+			<staticText>
+				<reportElement x="311" y="0" width="36" height="25" uuid="96558306-7148-4272-9a32-5fe28e936ad5"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="TH Sarabun Chula" size="16" pdfEncoding="Identity-H" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[ครรภ์ที่]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="-1" y="0" width="34" height="25" uuid="340a7895-f6c2-4616-8aad-8e8e117b24ea"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="TH Sarabun Chula" size="16" pdfEncoding="Identity-H" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[ลำดับ]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="33" y="0" width="183" height="25" uuid="f385fd6d-b9da-4d3a-95e0-adab9ed80c9a"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="TH Sarabun Chula" size="16" pdfEncoding="Identity-H" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[ชื่อ - สกุล/เบอร์โทรศัพท์]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="216" y="0" width="41" height="25" uuid="172a1de4-9de7-44b7-9f25-d82e4ba96d6b"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="TH Sarabun Chula" size="16" pdfEncoding="Identity-H" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[อายุ]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="257" y="0" width="54" height="25" uuid="84774573-84c9-413e-8401-f56b37bc5915"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="TH Sarabun Chula" size="16" pdfEncoding="Identity-H" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[ที่อยู่]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="347" y="0" width="78" height="25" uuid="229a9182-1529-45cd-99d7-b1b750c909aa"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="TH Sarabun Chula" size="16" pdfEncoding="Identity-H" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[วันกำหนดคลอด]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="425" y="0" width="43" height="25" uuid="0a89a16a-a084-4fed-b962-af90eba8ad41"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="TH Sarabun Chula" size="16" pdfEncoding="Identity-H" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[กรุ๊ปเลือด]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="468" y="0" width="55" height="25" uuid="c0032bb5-218e-4a5d-b51a-34380a8c7f2b"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="TH Sarabun Chula" size="16" pdfEncoding="Identity-H" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[การคลอด]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="523" y="0" width="65" height="25" uuid="6760b499-9c58-4e33-bc5a-e65956ae35f9"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="TH Sarabun Chula" size="16" pdfEncoding="Identity-H" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[วดป.คลอด]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="588" y="0" width="65" height="25" uuid="a7b3031b-c4be-4dc2-96f9-3778135062b1"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="TH Sarabun Chula" size="16" pdfEncoding="Identity-H" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[รพ.ที่คลอด]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="653" y="0" width="46" height="25" uuid="492d7c1d-0d1e-441f-a0c0-6aff96502f63"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="TH Sarabun Chula" size="16" pdfEncoding="Identity-H" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[น้ำหนัก]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="699" y="0" width="103" height="25" uuid="c4c59d7a-83b4-4b93-9d96-926fbc015140"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="TH Sarabun Chula" size="11" pdfEncoding="Identity-H" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[ชื่อ/เพศ/หมายเลขประชาชน]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="25" splitType="Stretch">
+			<printWhenExpression><![CDATA[$V{Count_DetailInfoInSurveyHeader} >= 1]]></printWhenExpression>
+			<frame>
+				<reportElement x="588" y="0" width="65" height="25" uuid="15a03658-7e56-41bc-9442-0888a629eb18"/>
+				<box>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+			</frame>
+			<frame>
+				<reportElement x="653" y="0" width="46" height="25" uuid="8d3c434a-1282-4753-8ad0-4a0f14911cf6"/>
+				<box>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+			</frame>
+			<frame>
+				<reportElement x="699" y="0" width="103" height="25" uuid="2590d023-4e69-4b94-9698-721e1970192f"/>
+				<box>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+			</frame>
+			<frame>
+				<reportElement x="311" y="0" width="36" height="25" uuid="50869ec9-b584-4691-8909-7458ff1329d3"/>
+				<box>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+			</frame>
+			<frame>
+				<reportElement x="0" y="0" width="33" height="25" uuid="a91d461a-2a0d-4864-ae1c-cda490d0b998"/>
+				<box>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+			</frame>
+			<frame>
+				<reportElement x="523" y="0" width="65" height="25" uuid="e32106e9-b8d0-4916-bac3-e01b6dd5611b"/>
+				<box>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+			</frame>
+			<frame>
+				<reportElement x="468" y="0" width="55" height="25" uuid="f83af914-4d0b-4dde-87e3-ff3444100441"/>
+				<box>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+			</frame>
+			<frame>
+				<reportElement x="33" y="0" width="183" height="25" uuid="3fbe9f1a-40c1-48f1-8324-3215505528d0"/>
+				<box>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+			</frame>
+			<frame>
+				<reportElement x="216" y="0" width="41" height="25" uuid="7e71f5bf-3357-424a-a0b8-f4d83cf33abb"/>
+				<box>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+			</frame>
+			<frame>
+				<reportElement x="257" y="0" width="54" height="25" uuid="1700f85f-3fdd-424b-8631-a54a3b1e5dc8"/>
+				<box>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+			</frame>
+			<frame>
+				<reportElement x="347" y="0" width="78" height="25" uuid="3d5539a5-0558-436c-a7f6-b1a2f2be6e91"/>
+				<box>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+			</frame>
+			<frame>
+				<reportElement x="425" y="0" width="43" height="25" uuid="2baabca1-1d7c-4a64-a63f-922bd8fbda10"/>
+				<box>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+			</frame>
+			<textField>
+				<reportElement x="425" y="0" width="43" height="25" uuid="a2bbd256-9688-4855-8a71-4a602337c6f1"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="TH Sarabun Chula" size="14" pdfEncoding="Identity-H" isPdfEmbedded="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{PregnantPersonBloodTypeName}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="468" y="0" width="55" height="25" uuid="6dfb0110-e94d-4acd-8087-b0dc6d1590f7"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="TH Sarabun Chula" size="14" pdfEncoding="Identity-H" isPdfEmbedded="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{BornTypeName}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="588" y="0" width="65" height="25" uuid="a931063c-840c-413d-bf0c-7bb68fd407a7"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="TH Sarabun Chula" size="14" pdfEncoding="Identity-H" isPdfEmbedded="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{BornHospitalName}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="0" y="0" width="33" height="25" uuid="cd40fd0d-5b0c-4d22-bc13-c11f46d14db4"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="TH Sarabun Chula" size="14" pdfEncoding="Identity-H" isPdfEmbedded="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{Count_AllDetailInfo}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="33" y="0" width="183" height="25" uuid="9033339a-aac4-4160-9805-78acf34bcf01"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="TH Sarabun Chula" size="14" pdfEncoding="Identity-H" isPdfEmbedded="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{PregnantPersonName}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="216" y="0" width="41" height="25" uuid="356bf47f-d68a-4cfa-989a-89441d00de60"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="TH Sarabun Chula" size="14" pdfEncoding="Identity-H" isPdfEmbedded="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{PregnantPersonAge}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="257" y="0" width="54" height="25" uuid="e4e5b7af-0a2e-48e0-9a7c-bff1c549db09"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="TH Sarabun Chula" size="14" pdfEncoding="Identity-H" isPdfEmbedded="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{PregnantPersonAddress}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="311" y="0" width="36" height="25" uuid="c6c08ed9-71ab-43c7-86ae-7d75961a554f"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="TH Sarabun Chula" size="14" pdfEncoding="Identity-H" isPdfEmbedded="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{PregnantPersonWombNo}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="347" y="0" width="78" height="25" uuid="3c482154-0578-42e3-957b-446a411d0294"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="TH Sarabun Chula" size="14" pdfEncoding="Identity-H" isPdfEmbedded="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{PregnantPersonBornDueDate}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="523" y="0" width="65" height="25" uuid="e16486d8-c35c-43d5-b265-aeed02d7bc25"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="TH Sarabun Chula" size="14" pdfEncoding="Identity-H" isPdfEmbedded="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{ChildBirthDate}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="653" y="0" width="46" height="25" uuid="a0ade21b-7936-4d35-8048-952469f20202"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="TH Sarabun Chula" size="14" pdfEncoding="Identity-H" isPdfEmbedded="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{ChildWeight}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="699" y="0" width="103" height="25" uuid="a0253230-fb6c-45ad-92ec-d6a3781f351a"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="TH Sarabun Chula" size="14" pdfEncoding="Identity-H" isPdfEmbedded="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{ChildName}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<columnFooter>
+		<band splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band splitType="Stretch"/>
+	</pageFooter>
+	<summary>
+		<band height="60" splitType="Stretch">
+			<frame>
+				<reportElement x="-127" y="10" width="78" height="25" uuid="2443978b-37ef-4867-ac76-a6288dda01c0"/>
+				<box>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+			</frame>
+		</band>
+	</summary>
+</jasperReport>
