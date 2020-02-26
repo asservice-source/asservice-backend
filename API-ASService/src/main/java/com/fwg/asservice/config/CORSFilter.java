@@ -50,7 +50,6 @@ public class CORSFilter extends OncePerRequestFilter {
 	        //System.out.println("servletPath : "+uris[3]);
 
 	        System.out.println("uri : "+uri);
-	        System.out.println(uri);
 	        System.out.println("sid : "+sid);
 	        
 	        List<String> bypassUrl = Arrays.asList(  "app"
@@ -67,9 +66,12 @@ public class CORSFilter extends OncePerRequestFilter {
 	        		,"file_upload"
 	        		
 	        		);
-
-
-			boolean isBypass = (bypassUrl.contains(uris[2]) || bypassUrl.contains(uris[3]));
+	        boolean isBypass = false;
+	        try {
+	        	isBypass = (bypassUrl.contains(uris[2]) || bypassUrl.contains(uris[3]));
+	        }catch(Exception e) {
+	        	isBypass = true;
+	        }
 			
 			System.out.println("isBypass : "+isBypass+"\n SID : "+sid);
 			System.out.println("SID : "+sid);
