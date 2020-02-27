@@ -287,31 +287,7 @@
   		</dependency>
 		
 	</dependencies>
-	<profiles>
-	    <profile>
-	        <!-- When built in OpenShift the 'openshift' profile will be used when 
-	            invoking mvn. -->
-	        <!-- Use this profile for any OpenShift specific customization your app 
-	            will need. -->
-	        <!-- By default that is to put the resulting archive into the 'webapps' 
-	            folder. -->
-	        <!-- http://maven.apache.org/guides/mini/guide-building-for-different-environments.html -->
-	        <id>openshift</id>
-	        <build>
-	            <finalName>asservice</finalName>
-	            <plugins>
-	                <plugin>
-	                    <artifactId>maven-war-plugin</artifactId>
-	                    <version>2.1.1</version>
-	                    <configuration>
-	                        <outputDirectory>webapps</outputDirectory>
-	                        <warName>ROOT</warName>
-	                    </configuration>
-	                </plugin>
-	            </plugins>
-	        </build>
-	    </profile>
-	</profiles>
+
 	<build>
 		<plugins>
 			<!-- Tomcat 7 plugin -->
@@ -347,6 +323,30 @@
 
 		</plugins>
 	</build>
+	<profiles>
+        <profile>
+            <!-- When built in OpenShift the 'openshift' profile will be used when invoking mvn. -->
+            <!-- Use this profile for any OpenShift specific customization your app will need. -->
+            <!-- By default that is to put the resulting archive into the 'deployments' folder. -->
+            <!-- http://maven.apache.org/guides/mini/guide-building-for-different-environments.html -->
+            <id>openshift</id>
+            <build>
+                <finalName>asservice</finalName>
+                <plugins>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-war-plugin</artifactId>
+                        <version>3.2.0</version>
+                        <configuration>
+                            <failOnMissingWebXml>false</failOnMissingWebXml>
+                            <outputDirectory>deployments</outputDirectory>
+                            <warName>ROOT</warName>
+                        </configuration>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+    </profiles>
 	<repositories>
 		<repository>
 			<id>java.net</id>
