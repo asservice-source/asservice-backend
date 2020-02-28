@@ -319,6 +319,17 @@
 
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-war-plugin</artifactId>
+				<version>2.6</version>
+				<configuration>
+					<warSourceDirectory>src/main/webapp</warSourceDirectory>
+					<warName>asservice</warName>
+					<failOnMissingWebXml>false</failOnMissingWebXml>
+				</configuration>
+			</plugin>
+
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-dependency-plugin</artifactId>
 				<version>2.3</version>
 				<executions>
@@ -330,10 +341,10 @@
 						<configuration>
 							<artifactItems>
 								<artifactItem>
-									<groupId>com.github.jsimone</groupId>
-									<artifactId>webapp-runner</artifactId>
+									<groupId>com.fwg.asservice</groupId>
+									<artifactId>asservice</artifactId>
 									<version>8.0.30.2</version>
-									<destFileName>webapp-runner.jar</destFileName>
+									<destFileName>asservice.jar</destFileName>
 								</artifactItem>
 							</artifactItems>
 						</configuration>
@@ -343,11 +354,7 @@
 
 		</plugins>
 	</build>
-	<!-- <repositories>
-		<repository>
-			<id>java.net</id>
-			<url>http://download.java.net/maven/2/</url>
-		</repository>
-	</repositories> -->
-	
+	<!-- <repositories> <repository> <id>java.net</id> <url>http://download.java.net/maven/2/</url> 
+		</repository> </repositories> -->
+
 </project>
