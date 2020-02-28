@@ -331,8 +331,8 @@
 								<artifactItem>
 									<groupId>com.fwg.asservice</groupId>
 									<artifactId>asservice</artifactId>
-									<version>7.0.22.3</version>
-									<destFileName>asservice.jar</destFileName>
+									<version>1.0.0-BUILD-SNAPSHOT</version>
+									<destFileName>asservice-1.0.0-BUILD-SNAPSHOT.jar</destFileName>
 								</artifactItem>
 							</artifactItems>
 						</configuration>
