@@ -1,1 +1,1 @@
-web: java -jar $JAVA_OPTS -Dserver.port=$PORT target/asservice-1.0.0-BUILD-SNAPSHOT
+web: java -jar $JAVA_OPTS -Dserver.port=$PORT target/asservice-1.0.0-BUILD-SNAPSHOT.jar
